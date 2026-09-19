@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="A gentle early-warning companion for romance scam and sextortion escalation." />
+    <title>Filtr. | A pause before it gets serious</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="shell">
+      <header class="topbar">
+        <a class="brand" href="#top" aria-label="Filtr. home">
+          <span class="brand-mark" aria-hidden="true"><i></i><i></i></span>
+          <span>Filtr.</span>
+        </a>
+        <nav aria-label="Primary navigation">
+          <a href="#how-it-works">How it works</a>
+          <a href="#privacy">Privacy</a>
+        </nav>
+        <button class="quiet-button" id="leaveButton">Leave quietly</button>
+      </header>
+
+      <section class="hero" id="top">
+        <div class="hero-copy">
+          <p class="eyebrow">A private check-in for online connections</p>
+          <h1>Keep the spark.<br />Notice the pressure.</h1>
+          <p class="lead">Filtr. waits for the moment a conversation changes. It does not judge a new connection for being long-distance or romantic.</p>
+          <div class="hero-actions">
+            <a class="button primary" href="#check-in">Try a private check-in</a>
+            <button class="text-button" id="storyButton">Why this waits</button>
+          </div>
+        </div>
+        <div class="hero-art" aria-label="Illustration of a calm, private messaging check-in">
+          <div class="sun"></div>
+          <div class="leaf leaf-one"></div>
+          <div class="leaf leaf-two"></div>
+          <div class="phone">
+            <div class="phone-top"><span></span><b>Private check-in</b><span></span></div>
+            <div class="chat-bubble them">I feel like I can tell you anything.</div>
+            <div class="chat-bubble me">Me too. I like taking this slowly.</div>
+            <div class="check-card">
+              <span class="check-mark">✓</span>
+              <div><b>That sounds okay so far.</b><small>Keep enjoying the conversation.</small></div>
+            </div>
+          </div>
+          <p class="art-caption">Care first, judgement never.</p>
+        </div>
+      </section>
+
+      <section class="promise" aria-label="What Filtr. notices">
+        <p>Filtr. looks for a pattern, not a person.</p>
+        <div><span>Trust-building</span><span>Secrecy</span><span>Urgency</span><span>Money</span></div>
+      </section>
+
+      <section class="check-in" id="check-in">
+        <div class="section-intro">
+          <p class="eyebrow">Private conversation check-in</p>
+          <h2>Has anything started to feel different?</h2>
+          <p>Walk through the messages at your pace. This demo shows why escalation matters more than a first impression.</p>
+        </div>
+
+        <div class="tool-grid">
+          <section class="conversation-panel" aria-label="Example conversation">
+            <div class="panel-heading">
+              <div>
+                <p class="kicker">Demo conversation</p>
+                <h3>Alex · 3 weeks</h3>
+              </div>
+              <span class="private-tag">Only on this device</span>
+            </div>
+            <div class="timeline" id="timeline" aria-live="polite"></div>
+            <div class="controls">
+              <button class="button primary compact" id="nextButton">Show what happens next</button>
+              <button class="secondary-control" id="resetButton">Start over</button>
+            </div>
+          </section>
+
+          <aside class="insight-panel" aria-live="polite">
+            <div class="status-line" id="statusLine">
+              <span class="status-orb"></span>
+              <span id="statusLabel">No concerning pattern yet</span>
+            </div>
+            <div class="pulse-visual" id="pulseVisual" aria-hidden="true">
+              <span></span><span></span><span></span><span></span><span></span>
+            </div>
+            <h3 id="insightTitle">A new connection can be exciting.</h3>
+            <p id="insightCopy">Early affection and distance alone are not warning signs. There is nothing to act on yet.</p>
+            <div class="signal-list" id="signalList"></div>
+            <div class="recommendation" id="recommendation">
+              <p class="kicker">Gentle nudge</p>
+              <p id="recommendationCopy">Enjoy the conversation, and keep sharing only what feels right to you.</p>
+            </div>
+            <button class="safe-exit" id="helpButton">I need a safe next step</button>
+          </aside>
+        </div>
+        <p class="disclaimer">This is an educational prototype. It does not prove anyone's intent. If you feel unsafe, pause contact and ask someone you trust for support.</p>
+      </section>
+
+      <section class="how-it-works" id="how-it-works">
+        <div class="section-intro narrow">
+          <p class="eyebrow">Built to avoid false alarms</p>
+          <h2>Connection is not the red flag.</h2>
+        </div>
+        <div class="steps">
+          <article>
+            <span>01</span>
+            <h3>Let context build</h3>
+            <p>A compliment, long distance, or daily messages are not enough to trigger an alert.</p>
+          </article>
+          <article>
+            <span>02</span>
+            <h3>Notice the shift</h3>
+            <p>We look for combinations like secrecy plus urgency, or affection followed by a request.</p>
+          </article>
+          <article>
+            <span>03</span>
+            <h3>Offer a next step</h3>
+            <p>When pressure rises, Filtr. suggests a pause, a verification step, and support.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="privacy" id="privacy">
+        <div>
+          <p class="eyebrow">Your story stays yours</p>
+          <h2>Designed for the moment you need a little space to think.</h2>
+        </div>
+        <div class="privacy-copy">
+          <p>Check-ins can be processed locally, without posting anything back into a chat. You choose what to review, save, or share.</p>
+          <button class="text-button" id="privacyButton">Read the privacy approach</button>
+        </div>
+      </section>
+
+      <footer>
+        <a class="brand" href="#top"><span class="brand-mark" aria-hidden="true"><i></i><i></i></span><span>Filtr.</span></a>
+        <p>Made for pauses that protect your future self.</p>
+        <button class="footer-help" id="footerHelp">Get support now</button>
+      </footer>
+    </main>
+
+    <dialog id="supportDialog">
+      <button class="dialog-close" id="closeDialog" aria-label="Close">×</button>
+      <p class="eyebrow">A safe next step</p>
+      <h2>Pause before you reply.</h2>
+      <p>Do not send money, private images, codes, or IDs. Save the messages, verify through a separate channel, and tell one person you trust what is happening.</p>
+      <div class="dialog-actions">
+        <button class="button primary" id="copyPlan">Copy a pause message</button>
+        <button class="secondary-control" id="closePlan">I understand</button>
+      </div>
+      <p class="copy-feedback" id="copyFeedback" aria-live="polite"></p>
+    </dialog>
+    <dialog id="infoDialog">
+      <button class="dialog-close" id="closeInfo" aria-label="Close">×</button>
+      <p class="eyebrow">Why Filtr. waits</p>
+      <h2>Early romance can look the same.</h2>
+      <p>Genuine long-distance relationships and scams may both begin with warm attention. Filtr. only raises the volume when affection connects with control, financial pressure, secrecy, image requests, or a sudden crisis.</p>
+    </dialog>
+    <script src="app.js"></script>
+  </body>
+</html>
