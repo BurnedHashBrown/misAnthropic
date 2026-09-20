@@ -1,18 +1,353 @@
 <!doctype html>
-<html lang="en"><head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="description" content="Filtr. is a private early-warning companion for romance scams and sextortion pressure." /><title>Filtr. | A pause before it gets serious</title><link rel="stylesheet" href="paperfolio.css" /></head>
-<body><main class="shell" id="top">
-  <header class="topbar toggle-nav"><a class="brand" href="#top" aria-label="Filtr. home"><span class="brand-mark" aria-hidden="true"><i></i><i></i></span><span>Filtr.</span></a><button class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="primaryNav">Menu <span></span></button><nav id="primaryNav" aria-label="Primary navigation"><a href="#live-watch">Live watch</a><a href="review.html">Paste review</a><a href="timeline.html">Timeline</a><a href="guides.html">Guides</a><a href="help.html">Help</a></nav><div class="nav-actions"><a class="nav-login" href="login.html">Log in</a><a class="quiet-button" href="signup.html">Sign up</a><button class="quiet-button leave-quiet" id="leaveButton">Leave quietly</button></div></header>
-  <section class="hero"><div class="hero-copy"><p class="eyebrow">A private check-in for online connections</p><h1>Keep the spark.<br />Notice the pressure.</h1><p class="lead">Filtr. waits for escalation, not romance. It nudges you only when pressure, secrecy, or requests start to stack up.</p><div class="hero-actions"><a class="arrow-fill-button" href="#live-watch"><span>Start a check-in</span><b aria-hidden="true">↗</b></a><button class="text-button" id="storyButton">Why Filtr. waits</button></div></div><div class="hero-art" aria-label="A private conversation check-in"><div class="sun"></div><div class="leaf leaf-one"></div><div class="leaf leaf-two"></div><div class="phone"><div class="phone-top"><span></span><b>Private check-in</b><span></span></div><div class="chat-bubble them">I feel like I can tell you anything.</div><div class="chat-bubble me">Me too. I like taking this slowly.</div><div class="check-card"><span class="check-mark">✓</span><div><b>That sounds okay so far.</b><small>Keep enjoying the conversation.</small></div></div></div><p class="art-caption">Care first. Judgment never.</p></div></section>
-  <section class="signal-slider" aria-label="Signals Filtr. considers"><div class="slider-track"><span>Warmth alone is not a warning</span><span>Privacy can be normal</span><span>Secrecy plus urgency deserves a pause</span><span>Money requests change the picture</span><span>Image pressure is never proof of care</span><span aria-hidden="true">Warmth alone is not a warning</span><span aria-hidden="true">Privacy can be normal</span><span aria-hidden="true">Secrecy plus urgency deserves a pause</span><span aria-hidden="true">Money requests change the picture</span><span aria-hidden="true">Image pressure is never proof of care</span></div></section>
-  <section class="check-in flow-section" id="live-watch"><div class="section-intro"><p class="eyebrow">Live watch mode</p><h2>Check the pattern as it changes.</h2><p>Keep the browser tool on while you chat. It notices combinations over time, instead of treating long-distance affection as suspicious from day one.</p></div><div class="watch-toolbar"><span class="watch-state"><i></i> Watch is on for this demo</span><button class="secondary-control" id="demoAlertButton">Test a safety alert</button><button class="secondary-control" id="watchToggle">Pause watch</button></div><div class="tool-grid"><section class="conversation-panel" aria-label="Example conversation"><div class="panel-heading"><div><p class="kicker">Demo conversation</p><h3>Alex · 3 weeks</h3></div><span class="private-tag">Only on this device</span></div><div class="timeline" id="timeline" aria-live="polite"></div><div class="controls"><button class="arrow-fill-button small" id="nextButton"><span>Show what happens next</span><b aria-hidden="true">↗</b></button><button class="secondary-control" id="resetButton">Start over</button></div></section><aside class="insight-panel" aria-live="polite"><div class="status-line"><span class="status-orb"></span><span id="statusLabel">No concerning pattern yet</span></div><div class="pulse-visual" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span></div><h3 id="insightTitle">A new connection can be exciting.</h3><p id="insightCopy">Early affection and distance alone are not warning signs. There is nothing to act on yet.</p><div class="signal-list" id="signalList"></div><div class="recommendation"><p class="kicker">Gentle nudge</p><p id="recommendationCopy">Enjoy the conversation, and keep sharing only what feels right to you.</p></div><button class="safe-exit" id="helpButton">I need a safe next step</button></aside></div><p class="disclaimer">Filtr. highlights patterns, not people. It cannot prove anyone's intent. If you feel unsafe, pause contact and ask someone you trust for support.</p></section>
-  <section class="review-section flow-section" id="review"><div class="review-copy"><p class="eyebrow">Paste and review</p><h2>Bring a conversation here, on your terms.</h2><p>Paste messages for a one-time local review. Filtr. explains the specific pattern it notices and never labels a person a scammer.</p><button class="arrow-fill-button" id="reviewButton"><span>Open private review</span><b aria-hidden="true">↗</b></button></div><div class="review-preview"><p class="kicker">What changed</p><div class="review-message them">Can you keep this just between us? I need a small favor today.</div><div class="review-finding"><strong>Pause before replying.</strong><span>Secrecy + urgency + a request appeared together.</span></div><button class="text-button" id="reviewPreviewButton">See the next safe step</button></div></section>
-  <section class="upload-section flow-section" id="upload"><div class="section-intro"><p class="eyebrow">Evidence locker</p><h2>Save screenshots without sending them anywhere.</h2><p>Drag a screenshot or image here to preview it locally. This can help document pressure before you block, report, or talk to someone you trust.</p></div><label class="image-uploader" id="uploadZone" for="imageInput"><input type="file" id="imageInput" accept="image/jpeg,image/png,image/webp" multiple hidden /><span class="upload-plus" aria-hidden="true">+</span><strong>Drop screenshots here</strong><small>or choose files · JPG, PNG, WEBP · stays in this browser</small><span class="upload-button">Choose files</span></label><div class="image-previews" id="imagePreviews" aria-live="polite"></div></section>
-  <section class="how-it-works flow-section" id="how-it-works"><div class="section-intro narrow"><p class="eyebrow">Built to avoid false alarms</p><h2>Connection is not the red flag.</h2></div><div class="steps"><article><span>01</span><h3>Let context build</h3><p>A compliment, long distance, or daily messages are not enough to trigger an alert.</p></article><article><span>02</span><h3>Notice the shift</h3><p>Filtr. looks for combinations like secrecy plus urgency, or affection followed by a request.</p></article><article><span>03</span><h3>Offer a next step</h3><p>When pressure rises, it suggests a pause, an independent verification, and support.</p></article></div></section>
-  <section class="privacy" id="privacy"><div><p class="eyebrow">Your story stays yours</p><h2>Designed for the moment you need a little space to think.</h2></div><div class="privacy-copy"><p>Review tools can work locally. You choose what to review, save, report, or share.</p><button class="text-button" id="privacyButton">Read the privacy approach</button></div></section><footer><a class="brand" href="#top"><span class="brand-mark" aria-hidden="true"><i></i><i></i></span><span>Filtr.</span></a><p>Made for pauses that protect your future self.</p><button class="footer-help" id="footerHelp">Get support now</button></footer>
-</main>
-<div class="notification-stack" id="notificationStack" aria-live="assertive"></div>
-<dialog id="supportDialog"><button class="dialog-close" id="closeDialog" aria-label="Close">×</button><p class="eyebrow">A safe next step</p><h2>Pause before you reply.</h2><p>Do not send money, private images, codes, or IDs. Save the messages, verify through a separate channel, and tell one person you trust what is happening.</p><div class="dialog-actions"><button class="arrow-fill-button small" id="copyPlan"><span>Copy a pause message</span><b aria-hidden="true">↗</b></button><button class="secondary-control" id="closePlan">I understand</button></div><p class="copy-feedback" id="copyFeedback" aria-live="polite"></p></dialog>
-<dialog id="infoDialog"><button class="dialog-close" id="closeInfo" aria-label="Close">×</button><p class="eyebrow">Why Filtr. waits</p><h2>Early romance can look the same.</h2><p>Genuine long-distance relationships and scams may both begin with warm attention. Filtr. only raises the volume when affection connects with control, financial pressure, secrecy, image requests, or a sudden crisis.</p></dialog>
-<dialog id="reviewDialog"><button class="dialog-close" id="closeReview" aria-label="Close">×</button><p class="eyebrow">Private review</p><h2>Paste only what you want checked.</h2><label class="review-label" for="reviewText">Messages to review</label><textarea id="reviewText" placeholder="Paste messages here. Nothing is sent from this demo."></textarea><p class="review-error" id="reviewError"></p><button class="arrow-fill-button small" id="analyzeButton"><span>Review locally</span><b aria-hidden="true">↗</b></button><div class="review-result" id="reviewResult" hidden></div></dialog>
-<dialog class="auth-dialog" id="authDialog"><button class="dialog-close" id="closeAuth" aria-label="Close">×</button><section class="auth-panel"><div class="auth-aside"><span class="brand">Filtr.</span><h2>A little space can change everything.</h2><p>Your private safety tools, in one calm place.</p></div><form id="authForm" class="auth-form"><p class="eyebrow">Keep your check-ins close</p><h2>Create a private account.</h2><label for="authEmail">Email</label><input type="email" id="authEmail" required placeholder="you@example.com" /><label for="authPassword">Password</label><input type="password" id="authPassword" required placeholder="At least 8 characters" /><button class="arrow-fill-button small" type="submit"><span>Continue securely</span><b aria-hidden="true">↗</b></button><p class="auth-feedback" id="authFeedback"></p></form></section></dialog>
-<script src="app.js"></script></body></html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Filtr. is a private early-warning companion for romance scams and sextortion pressure."
+    />
+    <title>Filtr. | A pause before it gets serious</title>
+    <link rel="stylesheet" href="paperfolio.css" />
+  </head>
+  <body>
+    <main class="shell" id="top">
+      <header class="topbar toggle-nav">
+        <a class="brand" href="#top" aria-label="Filtr. home"
+          ><span class="brand-mark" aria-hidden="true"><i></i><i></i></span
+          ><span>Filtr.</span></a
+        ><button
+          class="nav-toggle"
+          id="navToggle"
+          aria-expanded="false"
+          aria-controls="primaryNav"
+        >
+          Menu <span></span>
+        </button>
+        <nav id="primaryNav" aria-label="Primary navigation">
+          <a href="#live-watch">Live watch</a
+          ><a href="review.html">Paste review</a
+          ><a href="timeline.html">Timeline</a><a href="guides.html">Guides</a
+          ><a href="help.html">Help</a>
+        </nav>
+        <div class="nav-actions">
+          <a class="nav-login" href="login.html">Log in</a
+          ><a class="quiet-button" href="signup.html">Sign up</a
+          ><button class="quiet-button leave-quiet" id="leaveButton">
+            Leave quietly
+          </button>
+        </div>
+      </header>
+      <section class="hero">
+        <div class="hero-copy">
+          <p class="eyebrow">A private check-in for online connections</p>
+          <h1>Keep the spark.<br />Notice the pressure.</h1>
+          <p class="lead">
+            Filtr. waits for escalation, not romance. It nudges you only when
+            pressure, secrecy, or requests start to stack up.
+          </p>
+          <div class="hero-actions">
+            <a class="arrow-fill-button" href="#live-watch"
+              ><span>Start a check-in</span><b aria-hidden="true">↗</b></a
+            ><button class="text-button" id="storyButton">
+              Why Filtr. waits
+            </button>
+          </div>
+        </div>
+        <div class="hero-art" aria-label="A private conversation check-in">
+          <div class="sun"></div>
+          <div class="leaf leaf-one"></div>
+          <div class="leaf leaf-two"></div>
+          <div class="phone">
+            <div class="phone-top">
+              <span></span><b>Private check-in</b><span></span>
+            </div>
+            <div class="chat-bubble them">
+              I feel like I can tell you anything.
+            </div>
+            <div class="chat-bubble me">Me too. I like taking this slowly.</div>
+            <div class="check-card">
+              <span class="check-mark">✓</span>
+              <div>
+                <b>That sounds okay so far.</b
+                ><small>Keep enjoying the conversation.</small>
+              </div>
+            </div>
+          </div>
+          <p class="art-caption">Care first. Judgment never.</p>
+        </div>
+      </section>
+      <section class="signal-slider" aria-label="Signals Filtr. considers">
+        <div class="slider-track">
+          <span>Warmth alone is not a warning</span
+          ><span>Privacy can be normal</span
+          ><span>Secrecy plus urgency deserves a pause</span
+          ><span>Money requests change the picture</span
+          ><span>Image pressure is never proof of care</span
+          ><span aria-hidden="true">Warmth alone is not a warning</span
+          ><span aria-hidden="true">Privacy can be normal</span
+          ><span aria-hidden="true">Secrecy plus urgency deserves a pause</span
+          ><span aria-hidden="true">Money requests change the picture</span
+          ><span aria-hidden="true">Image pressure is never proof of care</span>
+        </div>
+      </section>
+      <section class="check-in flow-section" id="live-watch">
+        <div class="section-intro">
+          <p class="eyebrow">Live watch mode</p>
+          <h2>Check the pattern as it changes.</h2>
+          <p>
+            Keep the browser tool on while you chat. It notices combinations
+            over time, instead of treating long-distance affection as suspicious
+            from day one.
+          </p>
+        </div>
+        <div class="watch-toolbar">
+          <span class="watch-state"><i></i> Watch is on for this demo</span
+          ><button class="secondary-control" id="demoAlertButton">
+            Test a safety alert</button
+          ><button class="secondary-control" id="watchToggle">
+            Pause watch
+          </button>
+        </div>
+        <div class="tool-grid">
+          <section class="conversation-panel" aria-label="Example conversation">
+            <div class="panel-heading">
+              <div>
+                <p class="kicker">Demo conversation</p>
+                <h3>Alex · 3 weeks</h3>
+              </div>
+              <span class="private-tag">Only on this device</span>
+            </div>
+            <div class="timeline" id="timeline" aria-live="polite"></div>
+            <div class="controls">
+              <button class="arrow-fill-button small" id="nextButton">
+                <span>Show what happens next</span
+                ><b aria-hidden="true">↗</b></button
+              ><button class="secondary-control" id="resetButton">
+                Start over
+              </button>
+            </div>
+          </section>
+          <aside class="insight-panel" aria-live="polite">
+            <div class="status-line">
+              <span class="status-orb"></span
+              ><span id="statusLabel">No concerning pattern yet</span>
+            </div>
+            <div class="pulse-visual" aria-hidden="true">
+              <span></span><span></span><span></span><span></span><span></span>
+            </div>
+            <h3 id="insightTitle">A new connection can be exciting.</h3>
+            <p id="insightCopy">
+              Early affection and distance alone are not warning signs. There is
+              nothing to act on yet.
+            </p>
+            <div class="signal-list" id="signalList"></div>
+            <div class="recommendation">
+              <p class="kicker">Gentle nudge</p>
+              <p id="recommendationCopy">
+                Enjoy the conversation, and keep sharing only what feels right
+                to you.
+              </p>
+            </div>
+            <button class="safe-exit" id="helpButton">
+              I need a safe next step
+            </button>
+          </aside>
+        </div>
+        <p class="disclaimer">
+          Filtr. highlights patterns, not people. It cannot prove anyone's
+          intent. If you feel unsafe, pause contact and ask someone you trust
+          for support.
+        </p>
+      </section>
+      <section class="review-section flow-section" id="review">
+        <div class="review-copy">
+          <p class="eyebrow">Paste and review</p>
+          <h2>Bring a conversation here, on your terms.</h2>
+          <p>
+            Paste messages for a one-time local review. Filtr. explains the
+            specific pattern it notices and never labels a person a scammer.
+          </p>
+          <button class="arrow-fill-button" id="reviewButton">
+            <span>Open private review</span><b aria-hidden="true">↗</b>
+          </button>
+        </div>
+        <div class="review-preview">
+          <p class="kicker">What changed</p>
+          <div class="review-message them">
+            Can you keep this just between us? I need a small favor today.
+          </div>
+          <div class="review-finding">
+            <strong>Pause before replying.</strong
+            ><span>Secrecy + urgency + a request appeared together.</span>
+          </div>
+          <button class="text-button" id="reviewPreviewButton">
+            See the next safe step
+          </button>
+        </div>
+      </section>
+      <section class="upload-section flow-section" id="upload">
+        <div class="section-intro">
+          <p class="eyebrow">Evidence locker</p>
+          <h2>Save screenshots without sending them anywhere.</h2>
+          <p>
+            Drag a screenshot or image here to preview it locally. This can help
+            document pressure before you block, report, or talk to someone you
+            trust.
+          </p>
+        </div>
+        <label class="image-uploader" id="uploadZone" for="imageInput"
+          ><input
+            type="file"
+            id="imageInput"
+            accept="image/jpeg,image/png,image/webp"
+            multiple
+            hidden
+          /><span class="upload-plus" aria-hidden="true">+</span
+          ><strong>Drop screenshots here</strong
+          ><small
+            >or choose files · JPG, PNG, WEBP · stays in this browser</small
+          ><span class="upload-button">Choose files</span></label
+        >
+        <div class="image-previews" id="imagePreviews" aria-live="polite"></div>
+      </section>
+      <section class="how-it-works flow-section" id="how-it-works">
+        <div class="section-intro narrow">
+          <p class="eyebrow">Built to avoid false alarms</p>
+          <h2>Connection is not the red flag.</h2>
+        </div>
+        <div class="steps">
+          <article>
+            <span>01</span>
+            <h3>Let context build</h3>
+            <p>
+              A compliment, long distance, or daily messages are not enough to
+              trigger an alert.
+            </p>
+          </article>
+          <article>
+            <span>02</span>
+            <h3>Notice the shift</h3>
+            <p>
+              Filtr. looks for combinations like secrecy plus urgency, or
+              affection followed by a request.
+            </p>
+          </article>
+          <article>
+            <span>03</span>
+            <h3>Offer a next step</h3>
+            <p>
+              When pressure rises, it suggests a pause, an independent
+              verification, and support.
+            </p>
+          </article>
+        </div>
+      </section>
+      <section class="privacy" id="privacy">
+        <div>
+          <p class="eyebrow">Your story stays yours</p>
+          <h2>Designed for the moment you need a little space to think.</h2>
+        </div>
+        <div class="privacy-copy">
+          <p>
+            Review tools can work locally. You choose what to review, save,
+            report, or share.
+          </p>
+          <button class="text-button" id="privacyButton">
+            Read the privacy approach
+          </button>
+        </div>
+      </section>
+      <footer>
+        <a class="brand" href="#top"
+          ><span class="brand-mark" aria-hidden="true"><i></i><i></i></span
+          ><span>Filtr.</span></a
+        >
+        <p>Made for pauses that protect your future self.</p>
+        <button class="footer-help" id="footerHelp">Get support now</button>
+      </footer>
+    </main>
+    <div
+      class="notification-stack"
+      id="notificationStack"
+      aria-live="assertive"
+    ></div>
+    <dialog id="supportDialog">
+      <button class="dialog-close" id="closeDialog" aria-label="Close">
+        ×
+      </button>
+      <p class="eyebrow">A safe next step</p>
+      <h2>Pause before you reply.</h2>
+      <p>
+        Do not send money, private images, codes, or IDs. Save the messages,
+        verify through a separate channel, and tell one person you trust what is
+        happening.
+      </p>
+      <div class="dialog-actions">
+        <button class="arrow-fill-button small" id="copyPlan">
+          <span>Copy a pause message</span><b aria-hidden="true">↗</b></button
+        ><button class="secondary-control" id="closePlan">I understand</button>
+      </div>
+      <p class="copy-feedback" id="copyFeedback" aria-live="polite"></p>
+    </dialog>
+    <dialog id="infoDialog">
+      <button class="dialog-close" id="closeInfo" aria-label="Close">×</button>
+      <p class="eyebrow">Why Filtr. waits</p>
+      <h2>Early romance can look the same.</h2>
+      <p>
+        Genuine long-distance relationships and scams may both begin with warm
+        attention. Filtr. only raises the volume when affection connects with
+        control, financial pressure, secrecy, image requests, or a sudden
+        crisis.
+      </p>
+    </dialog>
+    <dialog id="reviewDialog">
+      <button class="dialog-close" id="closeReview" aria-label="Close">
+        ×
+      </button>
+      <p class="eyebrow">Private review</p>
+      <h2>Paste only what you want checked.</h2>
+      <label class="review-label" for="reviewText">Messages to review</label
+      ><textarea
+        id="reviewText"
+        placeholder="Paste messages here. Nothing is sent from this demo."
+      ></textarea>
+      <p class="review-error" id="reviewError"></p>
+      <button class="arrow-fill-button small" id="analyzeButton">
+        <span>Review locally</span><b aria-hidden="true">↗</b>
+      </button>
+      <div class="review-result" id="reviewResult" hidden></div>
+    </dialog>
+    <dialog class="auth-dialog" id="authDialog">
+      <button class="dialog-close" id="closeAuth" aria-label="Close">×</button>
+      <section class="auth-panel">
+        <div class="auth-aside">
+          <span class="brand">Filtr.</span>
+          <h2>A little space can change everything.</h2>
+          <p>Your private safety tools, in one calm place.</p>
+        </div>
+        <form id="authForm" class="auth-form">
+          <p class="eyebrow">Keep your check-ins close</p>
+          <h2>Create a private account.</h2>
+          <label for="authEmail">Email</label
+          ><input
+            type="email"
+            id="authEmail"
+            required
+            placeholder="you@example.com"
+          /><label for="authPassword">Password</label
+          ><input
+            type="password"
+            id="authPassword"
+            required
+            placeholder="At least 8 characters"
+          /><button class="arrow-fill-button small" type="submit">
+            <span>Continue securely</span><b aria-hidden="true">↗</b>
+          </button>
+          <p class="auth-feedback" id="authFeedback"></p>
+        </form>
+      </section>
+    </dialog>
+    <script src="app.js"></script>
+  </body>
+</html>
