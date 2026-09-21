@@ -178,38 +178,7 @@ document.querySelectorAll("#primaryNav a").forEach(
       $("#navToggle").setAttribute("aria-expanded", "false");
     }),
 );
-const zone = $("#uploadZone"),
-  input = $("#imageInput"),
-  previews = $("#imagePreviews");
-function preview(files) {
-  [...files]
-    .filter((f) => f.type.startsWith("image/"))
-    .slice(0, 5)
-    .forEach((f) => {
-      const r = new FileReader();
-      r.onload = (e) => {
-        const x = document.createElement("figure");
-        x.innerHTML = `<img src="${e.target.result}" alt="Preview of ${f.name}"/><figcaption>${f.name}<button type="button" aria-label="Remove">×</button></figcaption>`;
-        x.querySelector("button").onclick = () => x.remove();
-        previews.append(x);
-      };
-      r.readAsDataURL(f);
-    });
-}
-input.onchange = () => preview(input.files);
-["dragenter", "dragover"].forEach((t) =>
-  zone.addEventListener(t, (e) => {
-    e.preventDefault();
-    zone.classList.add("is-dragging");
-  }),
-);
-["dragleave", "drop"].forEach((t) =>
-  zone.addEventListener(t, (e) => {
-    e.preventDefault();
-    zone.classList.remove("is-dragging");
-  }),
-);
-zone.addEventListener("drop", (e) => preview(e.dataTransfer.files));
+
 const review = $("#reviewDialog");
 $("#reviewButton").onclick = () => open(review);
 $("#closeReview").onclick = () => review.close();

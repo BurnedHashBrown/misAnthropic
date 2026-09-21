@@ -27,12 +27,34 @@
         for escalation, not romance or distance alone.
       </p>
       <form class="review-workspace" id="pasteReviewForm">
-        <label for="pasteReviewText">Messages to review</label
-        ><textarea
-          id="pasteReviewText"
-          placeholder="Paste messages here. This demo keeps the text in your browser."
-        ></textarea
-        ><button class="arrow-fill-button" type="submit">
+        <label>Messages to review</label>
+        <div class="review-tabs" role="tablist">
+          <button class="review-tab active" type="button" role="tab" id="tabText" aria-selected="true" aria-controls="panelText">Paste text</button>
+          <button class="review-tab" type="button" role="tab" id="tabPhotos" aria-selected="false" aria-controls="panelPhotos">Upload screenshots</button>
+        </div>
+        <div class="review-panel active" id="panelText" role="tabpanel" aria-labelledby="tabText">
+          <textarea
+            id="pasteReviewText"
+            placeholder="Paste messages here. This demo keeps the text in your browser."
+          ></textarea>
+        </div>
+        <div class="review-panel" id="panelPhotos" role="tabpanel" aria-labelledby="tabPhotos">
+          <label class="image-uploader" id="reviewUploadZone" for="reviewImageInput"
+            ><input
+              type="file"
+              id="reviewImageInput"
+              accept="image/jpeg,image/png,image/webp"
+              multiple
+              hidden
+            /><span class="upload-plus" aria-hidden="true">+</span
+            ><strong>Drop screenshots here</strong
+            ><small
+              >or choose files · JPG, PNG, WEBP · stays in this browser</small
+            ><span class="upload-button">Choose files</span></label
+          >
+          <div class="image-previews" id="reviewImagePreviews" aria-live="polite"></div>
+        </div>
+        <button class="arrow-fill-button" type="submit">
           <span>Review locally</span><b>↗</b>
         </button>
         <div class="page-result" id="pasteReviewOutput" hidden></div>
