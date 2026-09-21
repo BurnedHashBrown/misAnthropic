@@ -25,6 +25,25 @@
         A timeline makes the escalation visible without making a verdict about
         the person behind the messages.
       </p>
+      <div id="timelineAuthBanner" style="background: rgba(255, 188, 13, 0.12); border-left: 3px solid var(--amber); padding: 14px 18px; margin: 0 0 32px; font-size: 12px; line-height: 1.5;" hidden>
+        <strong>Want to track your own conversations?</strong> <a href="login.html" style="text-decoration: underline; font-weight: 700;">Log in</a> or <a href="signup.html" style="text-decoration: underline; font-weight: 700;">sign up</a> to save your private check-ins and view personal pattern changes over time.
+      </div>
+
+      <div id="userTimelineSection" hidden>
+        <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 24px;">
+          <p class="page-kicker" style="color: var(--tomato); margin: 0;">Your Saved Check-ins</p>
+          <a href="review.html" style="font-size: 11px; font-weight: 800; text-decoration: underline; text-transform: uppercase; letter-spacing: 0.05em;">+ New Check-in</a>
+        </div>
+        <div id="userTimelineLoading" style="padding: 24px 0; font-size: 13px; color: #666;">Loading your check-ins...</div>
+        <div id="userTimelineEmpty" style="padding: 24px 0; font-size: 13px; line-height: 1.6;" hidden>
+          <p>No check-ins saved yet. Start by pasting messages in private review.</p>
+          <a class="arrow-fill-button small" href="review.html" style="display:inline-flex; margin-top: 10px;"><span>Start a check-in</span><b>↗</b></a>
+        </div>
+        <section class="risk-timeline" id="userTimelineList"></section>
+        <hr style="border: none; border-top: 1px solid var(--rule, #e5e5e5); margin: 40px 0 30px;">
+        <p class="page-kicker">Educational Reference</p>
+      </div>
+
       <section class="risk-timeline">
         <article class="timeline-step safe">
           <span>Week one</span>
@@ -60,5 +79,10 @@
       ><a href="terms.html">Terms and disclaimer</a
       ><a href="signup.html">Create account</a>
     </footer>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+    <script src="firebase-init.js"></script>
+    <script src="pages.js"></script>
   </body>
 </html>

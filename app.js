@@ -213,11 +213,7 @@ const auth = $("#authDialog");
 const authButton = $("#authButton");
 if (authButton) authButton.onclick = () => open(auth);
 $("#closeAuth").onclick = () => auth.close();
-$("#authForm").onsubmit = (e) => {
-  e.preventDefault();
-  $("#authFeedback").textContent =
-    "Demo only: no account was created and nothing was saved.";
-};
+
 render();
 (function () {
   const dot = document.querySelector(".watch-state i");
