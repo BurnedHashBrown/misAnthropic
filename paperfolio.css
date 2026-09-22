@@ -2069,3 +2069,112 @@ dialog textarea {
     font-size: 41px;
   }
 }
+
+/* ── AI Analysis Styles ─────────────────────────────────────────────────── */
+.ai-loading {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 20px 0;
+  font-size: 13px;
+  color: var(--muted);
+  font-weight: 600;
+}
+.ai-spinner {
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+  border: 2px solid var(--soft-rule);
+  border-top-color: var(--tomato);
+  border-radius: 50%;
+  animation: filtr-spin 0.7s linear infinite;
+}
+@keyframes filtr-spin {
+  to { transform: rotate(360deg); }
+}
+.ai-result {
+  padding: 20px;
+  margin-top: 6px;
+  border-left: 3px solid var(--soft-rule);
+}
+.ai-result--safe {
+  border-left-color: #2d9b2d;
+  background: rgba(45, 155, 45, 0.04);
+}
+.ai-result--watch {
+  border-left-color: var(--amber);
+  background: rgba(255, 188, 13, 0.06);
+}
+.ai-result--alert {
+  border-left-color: var(--tomato);
+  background: rgba(254, 74, 73, 0.06);
+}
+.ai-result-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+.ai-level-badge {
+  display: inline-block;
+  padding: 3px 10px;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  border-radius: 2px;
+  color: #fff;
+}
+.ai-level-badge.safe { background: #2d9b2d; }
+.ai-level-badge.watch { background: var(--amber); color: var(--ink); }
+.ai-level-badge.alert { background: var(--tomato); }
+.ai-source {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.ai-result strong {
+  display: block;
+  font-size: 18px;
+  line-height: 1.3;
+  margin-bottom: 6px;
+}
+.ai-result p {
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--muted);
+  margin: 0 0 10px;
+}
+.ai-signals {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 12px 0 8px;
+}
+.ai-signal {
+  font-size: 9px;
+  font-weight: 800;
+  padding: 3px 8px;
+  border-radius: 2px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #fff;
+}
+.ai-signal.safe { background: #2d9b2d; }
+.ai-signal.watch { background: var(--amber); color: var(--ink); }
+.ai-signal.alert { background: var(--tomato); }
+.ai-recommendation {
+  margin-top: 14px;
+  padding: 10px 14px;
+  background: rgba(0, 0, 0, 0.03);
+  border-left: 2px solid var(--ink);
+  font-size: 12px;
+  line-height: 1.5;
+}
+.ai-recommendation strong {
+  font-size: 12px;
+  display: inline;
+  margin: 0 4px 0 0;
+}

@@ -1,0 +1,15 @@
+{
+  "hosting": {
+    "site": "filtr-safe",
+    "public": ".",
+    "ignore": [
+      "firebase.json",
+      ".firebaserc",
+      "**/.*",
+      "**/node_modules/**",
+      "backend/**",
+      "*.md",
+      "decisions/**"
+    ]
+  }
+}

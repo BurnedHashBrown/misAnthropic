@@ -180,8 +180,13 @@ document.querySelectorAll("#primaryNav a").forEach(
 );
 
 const review = $("#reviewDialog");
-$("#reviewButton").onclick = () => open(review);
-$("#closeReview").onclick = () => review.close();
+const reviewButton = $("#reviewButton");
+if (reviewButton && reviewButton.tagName === "BUTTON") {
+  reviewButton.onclick = () => {
+    window.location.href = "review.html";
+  };
+}
+if ($("#closeReview") && review) $("#closeReview").onclick = () => review.close();
 $("#analyzeButton").onclick = () => {
   const t = $("#reviewText").value.toLowerCase().trim(),
     err = $("#reviewError"),
@@ -209,10 +214,10 @@ $("#analyzeButton").onclick = () => {
       "More than one pressure signal appeared in the messages you pasted.",
     );
 };
-const auth = $("#authDialog");
+const authModal = $("#authDialog");
 const authButton = $("#authButton");
-if (authButton) authButton.onclick = () => open(auth);
-$("#closeAuth").onclick = () => auth.close();
+if (authButton && authModal) authButton.onclick = () => open(authModal);
+if ($("#closeAuth") && authModal) $("#closeAuth").onclick = () => authModal.close();
 
 render();
 (function () {

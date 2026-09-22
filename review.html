@@ -54,8 +54,9 @@
           >
           <div class="image-previews" id="reviewImagePreviews" aria-live="polite"></div>
         </div>
+        <p class="ai-privacy-note" style="font-size:10px; color:var(--muted); margin-top:10px;">Messages are sent to an AI for analysis. They are not stored by Filtr.</p>
         <button class="arrow-fill-button" type="submit">
-          <span>Review locally</span><b>↗</b>
+          <span>Analyze with AI</span><b>↗</b>
         </button>
         <div class="page-result" id="pasteReviewOutput" hidden></div>
       </form>
@@ -66,10 +67,12 @@
       ><a href="signup.html">Create account</a>
     </footer>
     <p class="page-notice" id="pageNotice" hidden></p>
+    <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
     <script src="firebase-init.js"></script>
+    <script src="ai-review.js"></script>
     <script src="pages.js"></script>
   </body>
 </html>
