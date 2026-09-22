@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Filtr. Live Watch</title>
+    <link rel="stylesheet" href="panel.css" />
+  </head>
+  <body>
+    <header class="panel-header">
+      <div class="brand">
+        <span class="brand-mark"><i></i><i></i></span>
+        <span>Filtr.</span>
+      </div>
+      <span class="panel-badge" id="watchBadge">Live Watch</span>
+    </header>
+
+    <!-- Watch State Bar -->
+    <div class="watch-bar" id="watchBar">
+      <span class="watch-indicator" id="watchIndicator">
+        <i></i> <span id="watchLabel">Waiting for a chat page…</span>
+      </span>
+      <button class="watch-toggle" id="watchToggle">Pause</button>
+    </div>
+
+    <!-- Insight Panel (mirrors the website) -->
+    <section class="insight-section" id="insightSection">
+      <div class="status-line">
+        <span class="status-orb" id="statusOrb"></span>
+        <span id="statusLabel">No concerning pattern yet</span>
+      </div>
+
+      <div class="pulse-visual" aria-hidden="true">
+        <span></span><span></span><span></span><span></span><span></span>
+      </div>
+
+      <h2 id="insightTitle">Open a conversation to start.</h2>
+      <p id="insightCopy">
+        Filtr. watches for patterns like secrecy, urgency, money requests, and
+        image pressure. It stays quiet until combinations appear.
+      </p>
+
+      <div class="signal-list" id="signalList"></div>
+
+      <div class="recommendation" id="recommendationBlock" hidden>
+        <p class="kicker">Gentle nudge</p>
+        <p id="recommendationCopy"></p>
+      </div>
+
+      <button class="safe-exit" id="helpButton">I need a safe next step</button>
+    </section>
+
+    <!-- Safety Dialog (inline, toggled with JS) -->
+    <section class="safety-plan" id="safetyPlan" hidden>
+      <button class="back-btn" id="backButton">← Back</button>
+      <p class="kicker">A safe next step</p>
+      <h2>Pause before you reply.</h2>
+      <p>
+        Do not send money, private images, codes, or IDs. Save the messages,
+        verify through a separate channel, and tell one person you trust what is
+        happening.
+      </p>
+      <div class="plan-actions">
+        <button class="action-button primary" id="copyPlan">
+          <span>Copy a pause message</span>
+        </button>
+        <button class="action-button secondary" id="closePlan">I understand</button>
+      </div>
+      <p class="copy-feedback" id="copyFeedback" aria-live="polite"></p>
+    </section>
+
+    <!-- Stats Footer -->
+    <footer class="panel-footer">
+      <div class="stats" id="stats">
+        <span id="messageCount">0 messages checked</span>
+      </div>
+      <div class="footer-actions">
+        <button class="text-btn" id="resetButton">Clear all data</button>
+        <a class="text-btn" href="https://filtr-safe.web.app" target="_blank" rel="noopener">
+          Open Filtr. website
+        </a>
+      </div>
+    </footer>
+
+    <script src="panel.js"></script>
+  </body>
+</html>

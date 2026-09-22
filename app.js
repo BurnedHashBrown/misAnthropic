@@ -71,6 +71,7 @@ const stages = [
     button: "Review the safety plan",
   },
 ];
+document.addEventListener("DOMContentLoaded", () => {
 const $ = (s) => document.querySelector(s),
   timeline = $("#timeline"),
   statusLabel = $("#statusLabel"),
@@ -151,7 +152,7 @@ $("#watchToggle").onclick = (e) => {
 $("#closeDialog").onclick = () => supportDialog.close();
 $("#closePlan").onclick = () => supportDialog.close();
 $("#storyButton").onclick = () => open($("#infoDialog"));
-$("#privacyButton").onclick = () => open($("#infoDialog"));
+$("#privacyButton").onclick = () => window.location.href = "privacy.html";
 $("#closeInfo").onclick = () => $("#infoDialog").close();
 $("#leaveButton").onclick = () => location.assign("https://www.google.com");
 $("#copyPlan").onclick = async () => {
@@ -235,3 +236,4 @@ render();
     dot.style.transform = on ? "scale(1)" : "scale(0.7)";
   }, 750);
 })();
+});

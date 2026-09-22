@@ -1,0 +1,467 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Filtr. Extension Test Harness & Simulator</title>
+    <link rel="stylesheet" href="side-panel/panel.css" />
+    <style>
+      :root {
+        --wa-bg: #eae6df;
+        --wa-header: #008069;
+        --wa-in: #ffffff;
+        --wa-out: #d9fdd3;
+      }
+      body {
+        margin: 0;
+        padding: 0;
+        height: 100vh;
+        display: grid;
+        grid-template-columns: 1fr 420px;
+        background: #f0f2f5;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      }
+      /* Left column: Mock WhatsApp Web */
+      .mock-app {
+        display: flex;
+        flex-direction: column;
+        border-right: 2px solid #ccc;
+        height: 100vh;
+      }
+      .app-bar {
+        background: var(--wa-header);
+        color: white;
+        padding: 14px 20px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+      .app-bar h1 {
+        margin: 0;
+        font-size: 16px;
+        font-weight: 600;
+      }
+      .scenario-bar {
+        background: #fff;
+        padding: 12px 16px;
+        border-bottom: 1px solid #e0e0e0;
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+        align-items: center;
+      }
+      .scenario-btn {
+        background: #f0f2f5;
+        border: 1px solid #ccc;
+        padding: 6px 12px;
+        border-radius: 16px;
+        font-size: 12px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.15s ease;
+      }
+      .scenario-btn:hover {
+        background: #e4e6eb;
+      }
+      .scenario-btn.risk {
+        border-color: #e8503a;
+        color: #e8503a;
+      }
+      .scenario-btn.watch {
+        border-color: #d97706;
+        color: #d97706;
+      }
+      .chat-viewport {
+        flex: 1;
+        background: var(--wa-bg);
+        background-image: radial-gradient(#d1ccc2 1px, transparent 1px);
+        background-size: 20px 20px;
+        overflow-y: auto;
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+      /* WhatsApp message DOM selectors matching platform-config.js */
+      .message-in, .message-out {
+        max-width: 65%;
+        padding: 8px 12px;
+        border-radius: 8px;
+        font-size: 14px;
+        line-height: 1.4;
+        box-shadow: 0 1px 0.5px rgba(11,20,26,.13);
+        word-wrap: break-word;
+      }
+      .message-in {
+        background: var(--wa-in);
+        align-self: flex-start;
+        border-top-left-radius: 0;
+      }
+      .message-out {
+        background: var(--wa-out);
+        align-self: flex-end;
+        border-top-right-radius: 0;
+      }
+      .message-in .sender-tag {
+        font-size: 11px;
+        font-weight: bold;
+        color: #128c7e;
+        margin-bottom: 2px;
+      }
+      .message-input-bar {
+        background: #f0f2f5;
+        padding: 10px 16px;
+        display: flex;
+        gap: 8px;
+        align-items: center;
+        border-top: 1px solid #ddd;
+      }
+      .message-input-bar input {
+        flex: 1;
+        padding: 10px 14px;
+        border-radius: 8px;
+        border: 1px solid #ccc;
+        font-size: 14px;
+      }
+      .send-btn {
+        background: var(--wa-header);
+        color: white;
+        border: none;
+        padding: 10px 16px;
+        border-radius: 8px;
+        font-weight: bold;
+        cursor: pointer;
+      }
+      .send-btn.user-btn {
+        background: #4a5568;
+      }
+
+      /* Right column: Simulated Side Panel */
+      .side-panel-col {
+        height: 100vh;
+        overflow-y: auto;
+        display: flex;
+        flex-direction: column;
+        background: #fff;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Left Column: Mock WhatsApp Web UI -->
+    <div class="mock-app">
+      <div class="app-bar">
+        <div>
+          <h1>WhatsApp Web — Simulation Environment</h1>
+          <small style="opacity: 0.85;">DOM Structure matches <code>platform-config.js</code> selectors</small>
+        </div>
+      </div>
+
+      <div class="scenario-bar">
+        <span style="font-size: 12px; font-weight: bold; color: #555;">Quick Scenarios:</span>
+        <button class="scenario-btn" id="scenSafe">1. Benign Chat (Safe)</button>
+        <button class="scenario-btn watch" id="scenUrgency">2. Urgency Nudge (Watch)</button>
+        <button class="scenario-btn risk" id="scenScam">3. Urgent Money Request (Alert)</button>
+        <button class="scenario-btn risk" id="scenBlackmail">4. Threat / Blackmail (Alert)</button>
+        <button class="scenario-btn" id="clearChat">Clear Chat</button>
+      </div>
+
+      <div class="chat-viewport" id="chatContainer" role="application">
+        <div class="message-in">
+          <div class="sender-tag">Alex</div>
+          <span class="selectable-text">Hey there! It was really nice connecting with you yesterday.</span>
+        </div>
+        <div class="message-out">
+          <span class="selectable-text">Hey Alex! Same here, looking forward to our chat.</span>
+        </div>
+      </div>
+
+      <div class="message-input-bar">
+        <input type="text" id="customInput" placeholder="Type a message to simulate..." />
+        <button class="send-btn" id="btnThem">Receive (Them)</button>
+        <button class="send-btn user-btn" id="btnUser">Send (You)</button>
+      </div>
+    </div>
+
+    <!-- Right Column: Filtr. Side Panel -->
+    <div class="side-panel-col">
+      <header class="panel-header">
+        <div class="brand">
+          <span class="brand-mark"><i></i><i></i></span>
+          <span>Filtr.</span>
+        </div>
+        <span class="panel-badge" id="watchBadge">Live Watch</span>
+      </header>
+
+      <div class="watch-bar" id="watchBar">
+        <span class="watch-indicator" id="watchIndicator">
+          <i></i> <span id="watchLabel">Watching · WhatsApp Web</span>
+        </span>
+        <button class="watch-toggle" id="watchToggle">Pause</button>
+      </div>
+
+      <section class="insight-section level-safe" id="insightSection">
+        <div class="status-line">
+          <span class="status-orb" id="statusOrb"></span>
+          <span id="statusLabel">No concerning pattern yet</span>
+        </div>
+
+        <div class="pulse-visual" aria-hidden="true">
+          <span></span><span></span><span></span><span></span><span></span>
+        </div>
+
+        <h2 id="insightTitle">A new connection can be exciting.</h2>
+        <p id="insightCopy">
+          Early affection and distance alone are not warning signs. There is nothing to act on yet.
+        </p>
+
+        <div class="signal-list" id="signalList"></div>
+
+        <div class="recommendation" id="recommendationBlock" hidden>
+          <p class="kicker">Gentle nudge</p>
+          <p id="recommendationCopy"></p>
+        </div>
+
+        <button class="safe-exit" id="helpButton">I need a safe next step</button>
+      </section>
+
+      <section class="safety-plan" id="safetyPlan" hidden>
+        <button class="back-btn" id="backButton">← Back</button>
+        <p class="kicker">A safe next step</p>
+        <h2>Pause before you reply.</h2>
+        <p>
+          Do not send money, private images, codes, or IDs. Save the messages,
+          verify through a separate channel, and tell one person you trust what is
+          happening.
+        </p>
+        <div class="plan-actions">
+          <button class="action-button primary" id="copyPlan">
+            <span>Copy a pause message</span>
+          </button>
+          <button class="action-button secondary" id="closePlan">I understand</button>
+        </div>
+        <p class="copy-feedback" id="copyFeedback" aria-live="polite"></p>
+      </section>
+
+      <footer class="panel-footer">
+        <div class="stats" id="stats">
+          <span id="messageCount">2 messages checked</span>
+        </div>
+        <div class="footer-actions">
+          <button class="text-btn" id="resetButton">Clear all data</button>
+          <a class="text-btn" href="https://filtr-safe.web.app" target="_blank" rel="noopener">
+            Open Filtr. website
+          </a>
+        </div>
+      </footer>
+    </div>
+
+    <!-- Scripts -->
+    <script src="platform-config.js"></script>
+    <script src="content-scripts/extractor.js"></script>
+    <script type="module">
+      import { analyzeMessages, assessRisk } from "./pattern-engine.js";
+
+      // Simulation State
+      let state = {
+        isWatching: true,
+        platform: "WhatsApp Web",
+        signalHistory: [],
+        assessment: null,
+        messageCount: 2,
+      };
+
+      const chatContainer = document.getElementById("chatContainer");
+      const watchBar = document.getElementById("watchBar");
+      const watchLabel = document.getElementById("watchLabel");
+      const watchToggle = document.getElementById("watchToggle");
+      const insightSection = document.getElementById("insightSection");
+      const statusLabel = document.getElementById("statusLabel");
+      const insightTitle = document.getElementById("insightTitle");
+      const insightCopy = document.getElementById("insightCopy");
+      const signalList = document.getElementById("signalList");
+      const recommendationBlock = document.getElementById("recommendationBlock");
+      const recommendationCopy = document.getElementById("recommendationCopy");
+      const messageCount = document.getElementById("messageCount");
+      const helpButton = document.getElementById("helpButton");
+      const safetyPlan = document.getElementById("safetyPlan");
+      const backButton = document.getElementById("backButton");
+      const closePlan = document.getElementById("closePlan");
+      const copyPlan = document.getElementById("copyPlan");
+      const copyFeedback = document.getElementById("copyFeedback");
+      const resetButton = document.getElementById("resetButton");
+      const pulseBars = [...document.querySelectorAll(".pulse-visual span")];
+
+      const PULSE_HEIGHTS = {
+        safe: [23, 35, 25, 44, 30],
+        watch: [28, 51, 37, 63, 45],
+        alert: [38, 75, 53, 92, 66],
+      };
+
+      function renderUI() {
+        watchBar.classList.toggle("paused", !state.isWatching);
+        watchToggle.textContent = state.isWatching ? "Pause" : "Resume";
+        watchLabel.textContent = state.isWatching ? `Watching · ${state.platform}` : "Watch is paused";
+        messageCount.textContent = `${state.messageCount} message${state.messageCount !== 1 ? "s" : ""} checked`;
+
+        if (!state.assessment) {
+          insightSection.className = "insight-section level-safe";
+          statusLabel.textContent = "No concerning pattern yet";
+          insightTitle.textContent = "A new connection can be exciting.";
+          insightCopy.textContent = "Early affection and distance alone are not warning signs. There is nothing to act on yet.";
+          signalList.innerHTML = "";
+          recommendationBlock.hidden = true;
+          pulseBars.forEach(b => b.style.height = "25%");
+          return;
+        }
+
+        const a = state.assessment;
+        insightSection.className = `insight-section level-${a.concernLevel}`;
+        const statusTexts = {
+          safe: "No concerning pattern yet",
+          watch: "A change worth noticing",
+          alert: "Pause before you reply",
+        };
+        statusLabel.textContent = statusTexts[a.concernLevel] || statusTexts.safe;
+        insightTitle.textContent = a.title;
+        insightCopy.textContent = a.summary;
+
+        if (a.signals && a.signals.length > 0) {
+          signalList.innerHTML = a.signals
+            .map(s => `<span class="signal ${a.concernLevel !== 'safe' ? 'risk' : ''}">${s}</span>`)
+            .join("");
+        } else {
+          signalList.innerHTML = "";
+        }
+
+        if (a.nudge) {
+          recommendationBlock.hidden = false;
+          recommendationCopy.textContent = a.nudge;
+        } else {
+          recommendationBlock.hidden = true;
+        }
+
+        const heights = PULSE_HEIGHTS[a.concernLevel] || PULSE_HEIGHTS.safe;
+        heights.forEach((h, i) => {
+          if (pulseBars[i]) pulseBars[i].style.height = `${h}%`;
+        });
+      }
+
+      function addMessageToDOM(text, sender) {
+        const bubble = document.createElement("div");
+        bubble.className = sender === "them" ? "message-in" : "message-out";
+        if (sender === "them") {
+          const sTag = document.createElement("div");
+          sTag.className = "sender-tag";
+          sTag.textContent = "Alex";
+          bubble.appendChild(sTag);
+        }
+        const textSpan = document.createElement("span");
+        textSpan.className = "selectable-text";
+        textSpan.textContent = text;
+        bubble.appendChild(textSpan);
+        chatContainer.appendChild(bubble);
+        chatContainer.scrollTop = chatContainer.scrollHeight;
+
+        // Run extractor logic on the new element
+        if (window.__FILTR_EXTRACTOR) {
+          const config = window.__FILTR_PLATFORMS.whatsapp;
+          const extracted = window.__FILTR_EXTRACTOR.extractMessage(bubble, config);
+
+          if (extracted && state.isWatching) {
+            state.messageCount++;
+            const { assessment, signalHistory } = analyzeMessages([extracted], state.signalHistory);
+            state.assessment = assessment;
+            state.signalHistory = signalHistory;
+            renderUI();
+          }
+        }
+      }
+
+      // Quick Scenarios
+      document.getElementById("scenSafe").addEventListener("click", () => {
+        addMessageToDOM("I really enjoy sharing books with you. What are you reading today?", "them");
+      });
+
+      document.getElementById("scenUrgency").addEventListener("click", () => {
+        addMessageToDOM("Hey are you online? I urgently need to ask you something right now!", "them");
+      });
+
+      document.getElementById("scenScam").addEventListener("click", () => {
+        addMessageToDOM("I'm in a serious emergency, please wire me $500 via gift card right now. Don't tell anyone about this, keep it secret.", "them");
+      });
+
+      document.getElementById("scenBlackmail").addEventListener("click", () => {
+        addMessageToDOM("I took screenshots of everything. Pay me right now or I will expose you and send this to your family.", "them");
+      });
+
+      document.getElementById("clearChat").addEventListener("click", () => {
+        chatContainer.innerHTML = "";
+        state.signalHistory = [];
+        state.assessment = null;
+        state.messageCount = 0;
+        renderUI();
+      });
+
+      // Custom message input
+      const customInput = document.getElementById("customInput");
+      document.getElementById("btnThem").addEventListener("click", () => {
+        if (customInput.value.trim()) {
+          addMessageToDOM(customInput.value.trim(), "them");
+          customInput.value = "";
+        }
+      });
+      document.getElementById("btnUser").addEventListener("click", () => {
+        if (customInput.value.trim()) {
+          addMessageToDOM(customInput.value.trim(), "user");
+          customInput.value = "";
+        }
+      });
+      customInput.addEventListener("keydown", (e) => {
+        if (e.key === "Enter") document.getElementById("btnThem").click();
+      });
+
+      // Side panel controls
+      watchToggle.addEventListener("click", () => {
+        state.isWatching = !state.isWatching;
+        renderUI();
+      });
+
+      helpButton.addEventListener("click", () => {
+        insightSection.hidden = true;
+        safetyPlan.hidden = false;
+      });
+
+      backButton.addEventListener("click", () => {
+        safetyPlan.hidden = true;
+        insightSection.hidden = false;
+      });
+
+      closePlan.addEventListener("click", () => {
+        safetyPlan.hidden = true;
+        insightSection.hidden = false;
+      });
+
+      copyPlan.addEventListener("click", async () => {
+        const msg = "I need to pause. I do not send money or private content online. I will only continue after we verify through a video call and a trusted channel.";
+        try {
+          await navigator.clipboard.writeText(msg);
+          copyFeedback.textContent = "Pause message copied. You can change it to sound like you.";
+        } catch {
+          copyFeedback.textContent = "Copied text.";
+        }
+        setTimeout(() => copyFeedback.textContent = "", 4000);
+      });
+
+      resetButton.addEventListener("click", () => {
+        if (confirm("Clear all Filtr. data?")) {
+          state.signalHistory = [];
+          state.assessment = null;
+          state.messageCount = 0;
+          renderUI();
+        }
+      });
+
+      renderUI();
+    </script>
+  </body>
+</html>

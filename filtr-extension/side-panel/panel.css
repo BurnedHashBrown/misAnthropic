@@ -1,0 +1,470 @@
+/* ── Filtr. Side Panel — Design System ───────────────────────────────────── */
+/* Subset of paperfolio.css adapted for Chrome extension side panel           */
+
+:root {
+  --onyx: #1a1a1a;
+  --ink: #2a2a2a;
+  --smoke: #f5f2ee;
+  --cream: #faf8f5;
+  --amber: #ffbc0d;
+  --tomato: #e8503a;
+  --green: #2d8a4e;
+  --panel-bg: #ffffff;
+  --font-stack: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    sans-serif;
+  --mono: "SF Mono", "Fira Code", monospace;
+}
+
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-stack);
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--onyx);
+  background: var(--panel-bg);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow-x: hidden;
+}
+
+/* ── Header ────────────────────────────────────────────────────────────────── */
+
+.panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 16px;
+  border-bottom: 2px solid var(--onyx);
+  background: var(--panel-bg);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 16px;
+  font-weight: 900;
+  letter-spacing: -0.02em;
+  color: var(--onyx);
+  text-decoration: none;
+}
+
+.brand-mark {
+  display: inline-flex;
+  gap: 2px;
+}
+
+.brand-mark i {
+  width: 5px;
+  height: 14px;
+  background: var(--tomato);
+  border-radius: 1px;
+}
+
+.brand-mark i:last-child {
+  background: var(--amber);
+}
+
+.panel-badge {
+  font-size: 9px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 3px 8px;
+  border: 1.5px solid var(--onyx);
+  border-radius: 2px;
+  color: var(--onyx);
+}
+
+/* ── Watch Bar ─────────────────────────────────────────────────────────────── */
+
+.watch-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 16px;
+  background: var(--smoke);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.watch-indicator {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.watch-indicator i {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--green);
+  display: inline-block;
+  animation: pulse-dot 1.5s ease-in-out infinite;
+}
+
+.watch-bar.paused .watch-indicator i {
+  background: #aaa;
+  animation: none;
+}
+
+.watch-bar.paused #watchLabel {
+  color: #888;
+}
+
+@keyframes pulse-dot {
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.4;
+    transform: scale(0.7);
+  }
+}
+
+.watch-toggle {
+  font-family: var(--font-stack);
+  font-size: 10px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  padding: 4px 12px;
+  background: none;
+  border: 1.5px solid var(--ink);
+  border-radius: 2px;
+  cursor: pointer;
+  color: var(--ink);
+  transition: all 0.15s ease;
+}
+
+.watch-toggle:hover {
+  background: var(--onyx);
+  color: #fff;
+}
+
+/* ── Insight Section ───────────────────────────────────────────────────────── */
+
+.insight-section {
+  flex: 1;
+  padding: 20px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  transition: background 0.4s ease;
+}
+
+/* Risk state backgrounds */
+.insight-section.level-safe {
+  background: var(--panel-bg);
+}
+
+.insight-section.level-watch {
+  background: var(--amber);
+}
+
+.insight-section.level-alert {
+  background: var(--tomato);
+  color: #fff;
+}
+
+.status-line {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.status-orb {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--green);
+  flex-shrink: 0;
+}
+
+.level-watch .status-orb {
+  background: var(--onyx);
+}
+
+.level-alert .status-orb {
+  background: #fff;
+  animation: pulse-dot 0.8s ease-in-out infinite;
+}
+
+/* ── Pulse Visual ──────────────────────────────────────────────────────────── */
+
+.pulse-visual {
+  display: flex;
+  align-items: flex-end;
+  gap: 4px;
+  height: 40px;
+  margin: 4px 0;
+}
+
+.pulse-visual span {
+  width: 8px;
+  background: var(--onyx);
+  border-radius: 2px;
+  height: 25%;
+  transition: height 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.level-watch .pulse-visual span {
+  background: var(--onyx);
+}
+
+.level-alert .pulse-visual span {
+  background: rgba(255, 255, 255, 0.9);
+}
+
+/* ── Typography ────────────────────────────────────────────────────────────── */
+
+.insight-section h2 {
+  font-size: 20px;
+  font-weight: 900;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+}
+
+.insight-section p {
+  font-size: 13px;
+  line-height: 1.55;
+  opacity: 0.88;
+}
+
+.kicker {
+  font-size: 10px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  opacity: 0.7;
+  margin-bottom: 4px;
+}
+
+/* ── Signal Tags ───────────────────────────────────────────────────────────── */
+
+.signal-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.signal {
+  font-size: 9px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 3px 8px;
+  border-radius: 2px;
+  background: rgba(0, 0, 0, 0.06);
+  color: var(--ink);
+}
+
+.signal.risk {
+  background: var(--tomato);
+  color: #fff;
+}
+
+.level-watch .signal.risk {
+  background: var(--onyx);
+  color: #fff;
+}
+
+.level-alert .signal {
+  background: rgba(255, 255, 255, 0.2);
+  color: #fff;
+}
+
+.level-alert .signal.risk {
+  background: rgba(255, 255, 255, 0.4);
+}
+
+/* ── Recommendation ────────────────────────────────────────────────────────── */
+
+.recommendation {
+  padding-top: 14px;
+  margin-top: 4px;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.level-alert .recommendation {
+  border-top-color: rgba(255, 255, 255, 0.2);
+}
+
+/* ── Safe Exit Button ──────────────────────────────────────────────────────── */
+
+.safe-exit {
+  font-family: var(--font-stack);
+  font-size: 11px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 10px 16px;
+  background: none;
+  border: 1.5px solid currentColor;
+  border-radius: 2px;
+  cursor: pointer;
+  color: var(--ink);
+  transition: all 0.15s ease;
+  margin-top: 8px;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.safe-exit:hover {
+  background: var(--onyx);
+  color: #fff;
+  border-color: var(--onyx);
+}
+
+.level-alert .safe-exit {
+  color: #fff;
+  border-color: #fff;
+}
+
+.level-alert .safe-exit:hover {
+  background: #fff;
+  color: var(--tomato);
+}
+
+/* ── Safety Plan ───────────────────────────────────────────────────────────── */
+
+.safety-plan {
+  padding: 20px 16px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.safety-plan h2 {
+  font-size: 20px;
+  font-weight: 900;
+  line-height: 1.2;
+}
+
+.safety-plan p {
+  font-size: 13px;
+  line-height: 1.55;
+}
+
+.back-btn {
+  font-family: var(--font-stack);
+  font-size: 11px;
+  font-weight: 700;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--ink);
+  padding: 0;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  align-self: flex-start;
+}
+
+.plan-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 8px;
+}
+
+.action-button {
+  font-family: var(--font-stack);
+  font-size: 11px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 10px 16px;
+  border-radius: 2px;
+  cursor: pointer;
+  border: 1.5px solid var(--onyx);
+  transition: all 0.15s ease;
+}
+
+.action-button.primary {
+  background: var(--onyx);
+  color: #fff;
+}
+
+.action-button.primary:hover {
+  background: var(--ink);
+}
+
+.action-button.secondary {
+  background: none;
+  color: var(--ink);
+}
+
+.action-button.secondary:hover {
+  background: var(--smoke);
+}
+
+.copy-feedback {
+  font-size: 11px;
+  color: var(--green);
+  font-weight: 600;
+  min-height: 1.5em;
+}
+
+/* ── Footer ────────────────────────────────────────────────────────────────── */
+
+.panel-footer {
+  padding: 12px 16px;
+  border-top: 1px solid rgba(0, 0, 0, 0.08);
+  background: var(--smoke);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.stats {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #888;
+}
+
+.footer-actions {
+  display: flex;
+  gap: 14px;
+}
+
+.text-btn {
+  font-family: var(--font-stack);
+  font-size: 10px;
+  font-weight: 700;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--ink);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  padding: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.text-btn:hover {
+  color: var(--tomato);
+}

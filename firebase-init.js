@@ -6,7 +6,7 @@ const firebaseConfig = {
   storageBucket: "filtr-336c0.firebasestorage.app",
   messagingSenderId: "691140615070",
   appId: "1:691140615070:web:a534b9eeead4b690d6948f",
-  measurementId: "G-0MF9LW2C8B"
+  measurementId: "G-0MF9LW2C8B",
 };
 
 // Initialize Firebase if loaded
@@ -27,10 +27,13 @@ window.FiltrAuth = {
     // Create initial user profile in Firestore
     if (db && cred.user) {
       try {
-        await db.collection("users").doc(cred.user.uid).set({
-          email: cred.user.email,
-          createdAt: firebase.firestore.FieldValue.serverTimestamp()
-        }, { merge: true });
+        await db.collection("users").doc(cred.user.uid).set(
+          {
+            email: cred.user.email,
+            createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+          },
+          { merge: true },
+        );
       } catch (err) {
         console.warn("Could not save initial user doc:", err);
       }
@@ -45,7 +48,7 @@ window.FiltrAuth = {
     if (!auth) throw new Error("Firebase Auth is not initialized.");
     return await auth.signOut();
   },
-  getUser: () => auth ? auth.currentUser : null
+  getUser: () => (auth ? auth.currentUser : null),
 };
 
 // Format Firebase auth error messages nicely
@@ -106,7 +109,8 @@ if (auth) {
         const existingLink = appTopbar.querySelector(".app-link");
         authSlot = document.createElement("div");
         authSlot.className = "app-auth-slot";
-        authSlot.style.cssText = "justify-self: end; display: flex; align-items: center; gap: 14px;";
+        authSlot.style.cssText =
+          "justify-self: end; display: flex; align-items: center; gap: 14px;";
         if (existingLink) {
           existingLink.replaceWith(authSlot);
         } else {
@@ -154,7 +158,9 @@ document.addEventListener("DOMContentLoaded", () => {
     const emailInput = document.getElementById("accountEmail");
     const passwordInput = document.getElementById("accountPassword");
     const submitBtn = accountForm.querySelector("button[type='submit']");
-    const originalBtnText = submitBtn ? submitBtn.querySelector("span")?.textContent || "Submit" : "Submit";
+    const originalBtnText = submitBtn
+      ? submitBtn.querySelector("span")?.textContent || "Submit"
+      : "Submit";
 
     accountForm.addEventListener("submit", async (e) => {
       e.preventDefault();
@@ -168,7 +174,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
       if (submitBtn) {
         submitBtn.disabled = true;
-        submitBtn.querySelector("span").textContent = isSignupPage ? "Creating account..." : "Logging in...";
+        submitBtn.querySelector("span").textContent = isSignupPage
+          ? "Creating account..."
+          : "Logging in...";
       }
 
       try {
@@ -215,7 +223,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
       try {
         await window.FiltrAuth.signUp(email, password);
-        if (feedback) feedback.textContent = "Account created! You are now logged in.";
+        if (feedback)
+          feedback.textContent = "Account created! You are now logged in.";
         setTimeout(() => {
           const authDialog = document.getElementById("authDialog");
           if (authDialog && authDialog.open) authDialog.close();
