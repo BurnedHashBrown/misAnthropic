@@ -43,7 +43,7 @@ const SIGNAL_CHECKS = [
     id: "emotional-coercion",
     label: "Emotional coercion",
     pattern:
-      /\b(?:only\s+love|prove\s+(?:your\s+)?love|prove\s+(?:your\s+)?trust|if\s+you\s+(?:really\s+)?care|don['']t\s+you\s+love\s+me|you\s+don['']t\s+trust\s+me|after\s+all\s+i(?:['']ve)?\s+done|you\s+owe\s+me)\b/i,
+      /\b(?:only\s+love|for\s+(?:the\s+)?sake\s+of\s+(?:our\s+)?love|prove\s+(?:your\s+)?love|prove\s+(?:your\s+)?trust|if\s+you\s+(?:really\s+)?care|don['']t\s+you\s+love\s+me|you\s+don['']t\s+trust\s+me|after\s+all\s+i(?:['']ve)?\s+done|you\s+owe\s+me)\b/i,
   },
   {
     id: "isolation",

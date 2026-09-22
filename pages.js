@@ -29,10 +29,10 @@ if (reviewForm) {
   }
 
   tabText.addEventListener("click", () =>
-    activateTab(tabText, panelText, tabPhotos, panelPhotos)
+    activateTab(tabText, panelText, tabPhotos, panelPhotos),
   );
   tabPhotos.addEventListener("click", () =>
-    activateTab(tabPhotos, panelPhotos, tabText, panelText)
+    activateTab(tabPhotos, panelPhotos, tabText, panelText),
   );
 
   /* ── Photo upload (drag-and-drop + file picker) ── */
@@ -67,13 +67,13 @@ if (reviewForm) {
     zone.addEventListener(t, (e) => {
       e.preventDefault();
       zone.classList.add("is-dragging");
-    })
+    }),
   );
   ["dragleave", "drop"].forEach((t) =>
     zone.addEventListener(t, (e) => {
       e.preventDefault();
       zone.classList.remove("is-dragging");
-    })
+    }),
   );
   zone.addEventListener("drop", (e) => previewFiles(e.dataTransfer.files));
 
@@ -82,10 +82,53 @@ if (reviewForm) {
     event.preventDefault();
     const output = $("#pasteReviewOutput");
     const submitBtn = reviewForm.querySelector("button[type='submit']");
-    const originalBtnText = submitBtn ? submitBtn.querySelector("span")?.textContent || "Review" : "Review";
+    const originalBtnText = submitBtn
+      ? submitBtn.querySelector("span")?.textContent || "Review"
+      : "Review";
     const isPhotoMode = tabPhotos.classList.contains("active");
-    const user = window.FiltrAuth?.getUser() || (typeof firebase !== "undefined" && firebase.auth ? firebase.auth().currentUser : null);
-    const db = window.FiltrAuth?.db || (typeof firebase !== "undefined" && firebase.firestore ? firebase.firestore() : null);
+    let user =
+      window.FiltrAuth?.getUser() ||
+      (typeof firebase !== "undefined" && firebase.auth
+        ? firebase.auth().currentUser
+        : null);
+    if (!user && typeof firebase !== "undefined" && firebase.auth) {
+      user = await new Promise((resolve) => {
+        let finished = false;
+        const unsub = firebase.auth().onAuthStateChanged((u) => {
+          if (!finished) {
+            finished = true;
+            unsub();
+            resolve(u);
+          }
+        });
+        setTimeout(() => {
+          if (!finished) {
+            finished = true;
+            unsub();
+            resolve(null);
+          }
+        }, 350);
+      });
+    }
+
+    // Gate: require login before AI analysis
+    if (!user) {
+      output.hidden = false;
+      output.innerHTML = `
+        <div class="ai-result ai-result--auth" style="background: var(--cream); border-left: 4px solid var(--tomato); padding: 24px 20px; border-radius: 4px;">
+          <p class="kicker" style="font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.06em; color: var(--tomato); margin-bottom: 8px;">Account required</p>
+          <h3 style="font-size: 18px; font-weight: 900; margin-bottom: 8px; color: var(--onyx);">Log in to analyze with AI.</h3>
+          <p style="font-size: 13px; line-height: 1.55; color: var(--ink); margin-bottom: 18px;">
+            Create a free account or log in to unlock AI-powered message analysis. Your data stays private and is never shared.
+          </p>
+          <div style="display: flex; gap: 12px; flex-wrap: wrap;">
+            <a href="login.html" style="display:inline-block; padding:10px 22px; background:var(--onyx); color:#fff; font-size:11px; font-weight:800; text-transform:uppercase; letter-spacing:0.05em; text-decoration:none; border-radius:2px; border:1.5px solid var(--onyx); transition: all 0.15s ease;">Log in</a>
+            <a href="signup.html" style="display:inline-block; padding:10px 22px; background:none; color:var(--ink); font-size:11px; font-weight:800; text-transform:uppercase; letter-spacing:0.05em; text-decoration:none; border-radius:2px; border:1.5px solid var(--onyx); transition: all 0.15s ease;">Sign up</a>
+          </div>
+        </div>
+      `;
+      return;
+    }
 
     // Build save note
     function buildSaveNote(result) {
@@ -97,20 +140,31 @@ if (reviewForm) {
           title: result.title || "Check-in",
           summary: result.summary || "",
           source: result.source || "unknown",
-          createdAt: firebase.firestore.FieldValue.serverTimestamp()
+          createdAt: firebase.firestore.FieldValue.serverTimestamp(),
         };
         if (!isPhotoMode) {
           const text = $("#pasteReviewText").value.trim();
-          reviewData.snippet = text.length > 140 ? text.slice(0, 140) + "..." : text;
+          reviewData.snippet =
+            text.length > 140 ? text.slice(0, 140) + "..." : text;
         } else {
           reviewData.photoCount = uploadedFiles.length;
           const snippetSource = result?.extractedText || "";
           reviewData.snippet = snippetSource
-            ? (snippetSource.length > 140 ? snippetSource.slice(0, 140) + "..." : snippetSource)
-            : `${uploadedFiles.length} file${uploadedFiles.length > 1 ? "s" : ""}: ${uploadedFiles.map((f) => f.name).slice(0, 3).join(", ")}`;
+            ? snippetSource.length > 140
+              ? snippetSource.slice(0, 140) + "..."
+              : snippetSource
+            : `${uploadedFiles.length} file${uploadedFiles.length > 1 ? "s" : ""}: ${uploadedFiles
+                .map((f) => f.name)
+                .slice(0, 3)
+                .join(", ")}`;
         }
-        db.collection("users").doc(user.uid).collection("reviews").add(reviewData)
-          .catch((err) => console.warn("Could not save review to Firestore:", err));
+        db.collection("users")
+          .doc(user.uid)
+          .collection("reviews")
+          .add(reviewData)
+          .catch((err) =>
+            console.warn("Could not save review to Firestore:", err),
+          );
 
         return `
           <div class="save-status" style="margin-top:16px; padding:12px 14px; background:rgba(0,0,0,0.04); border-left:3px solid var(--tomato); font-size:11px; display:flex; justify-content:space-between; align-items:center;">
@@ -160,37 +214,62 @@ if (reviewForm) {
           "isolation",
         ],
       ];
-      const signals = checks.filter(([pattern]) => pattern.test(t)).map(([, label]) => label);
+      const signals = checks
+        .filter(([pattern]) => pattern.test(t))
+        .map(([, label]) => label);
       const isBlackmail = signals.includes("threat/blackmail");
       const concern = signals.length > 1 || isBlackmail;
-      const concernLevel = concern ? "alert" : (signals.length === 1 ? "watch" : "safe");
+      const concernLevel = concern
+        ? "alert"
+        : signals.length === 1
+          ? "watch"
+          : "safe";
 
       let title = "No combined pressure pattern found yet.";
-      let summary = "Warmth or distance alone is not a warning. Keep your boundaries and review again if a request or pressure appears.";
-      let recommendation = "Enjoy the conversation, and keep sharing only what feels right.";
+      let summary =
+        "Warmth or distance alone is not a warning. Keep your boundaries and review again if a request or pressure appears.";
+      let recommendation =
+        "Enjoy the conversation, and keep sharing only what feels right.";
 
       if (concernLevel === "alert") {
-        title = isBlackmail ? "Threat or blackmail signals detected." : "Pause before replying.";
+        title = isBlackmail
+          ? "Threat or blackmail signals detected."
+          : "Pause before replying.";
         summary = `Filtr. noticed ${signals.join(", ")}. Multiple concerning signals are combining. Save the messages, verify through a separate channel, and involve someone you trust.`;
-        recommendation = "Do not send money, private images, codes, or IDs. Step back and talk to a trusted adult or friend.";
+        recommendation =
+          "Do not send money, private images, codes, or IDs. Step back and talk to a trusted adult or friend.";
       } else if (concernLevel === "watch") {
         title = "A signal worth noticing.";
         if (signals.includes("money request")) {
-          summary = "Filtr. noticed a money or financial request. Financial requests from online connections are a primary warning sign for romance and imposter scams.";
-          recommendation = "Never send money, wire transfers, crypto, or gift cards to someone you have only met online.";
+          summary =
+            "Filtr. noticed a money or financial request. Financial requests from online connections are a primary warning sign for romance and imposter scams.";
+          recommendation =
+            "Never send money, wire transfers, crypto, or gift cards to someone you have only met online.";
         } else if (signals.includes("private-image pressure")) {
-          summary = "Filtr. noticed pressure for private photos or video. Requests for intimate content can escalate into sextortion or blackmail.";
-          recommendation = "Do not feel pressured to share intimate photos. You have the right to keep your privacy.";
+          summary =
+            "Filtr. noticed pressure for private photos or video. Requests for intimate content can escalate into sextortion or blackmail.";
+          recommendation =
+            "Do not feel pressured to share intimate photos. You have the right to keep your privacy.";
         } else if (signals.includes("secrecy request")) {
-          summary = "Filtr. noticed a secrecy request. Pressure to keep conversations secret is often used to isolate you from support.";
-          recommendation = "Before agreeing to keep secrets, consider discussing this connection with someone you trust.";
+          summary =
+            "Filtr. noticed a secrecy request. Pressure to keep conversations secret is often used to isolate you from support.";
+          recommendation =
+            "Before agreeing to keep secrets, consider discussing this connection with someone you trust.";
         } else {
           summary = `Filtr. noticed ${signals[0]}. Keep your boundaries and observe how the conversation develops.`;
-          recommendation = "Stay aware. If more pressure appears, come back and check in again.";
+          recommendation =
+            "Stay aware. If more pressure appears, come back and check in again.";
         }
       }
 
-      return { concernLevel, title, summary, signals, recommendation, source: "regex-fallback" };
+      return {
+        concernLevel,
+        title,
+        summary,
+        signals,
+        recommendation,
+        source: "regex-fallback",
+      };
     }
 
     // Show loading state
@@ -230,9 +309,15 @@ if (reviewForm) {
         let result = null;
         if (typeof FILTR_AI !== "undefined") {
           if (uploadedFiles.length === 1) {
-            result = await FILTR_AI.analyzeImage(uploadedFiles[0], updateProgress);
+            result = await FILTR_AI.analyzeImage(
+              uploadedFiles[0],
+              updateProgress,
+            );
           } else {
-            result = await FILTR_AI.analyzeImages(uploadedFiles, updateProgress);
+            result = await FILTR_AI.analyzeImages(
+              uploadedFiles,
+              updateProgress,
+            );
           }
 
           // Handle client-side regex evaluation if backend was unconfigured/offline
@@ -249,10 +334,16 @@ if (reviewForm) {
           if (result && result.overallConcernLevel) {
             result = {
               concernLevel: result.overallConcernLevel,
-              title: result.overallConcernLevel === "alert"
-                ? "Concerning patterns detected across screenshots."
-                : (result.overallConcernLevel === "watch" ? "Something worth noticing in these screenshots." : "No concerning patterns detected."),
-              summary: result.imageResults?.map((r) => `${r.filename}: ${r.title || "Analyzed"}`).join(" · ") || "Screenshots analyzed.",
+              title:
+                result.overallConcernLevel === "alert"
+                  ? "Concerning patterns detected across screenshots."
+                  : result.overallConcernLevel === "watch"
+                    ? "Something worth noticing in these screenshots."
+                    : "No concerning patterns detected.",
+              summary:
+                result.imageResults
+                  ?.map((r) => `${r.filename}: ${r.title || "Analyzed"}`)
+                  .join(" · ") || "Screenshots analyzed.",
               signals: result.allSignals || [],
               source: result.imageResults?.[0]?.source || "vision",
               extractedText: result.extractedText,
@@ -261,7 +352,13 @@ if (reviewForm) {
         }
 
         // Display result
-        const saveNote = buildSaveNote(result || { signals: [], concernLevel: "safe", title: "Screenshots saved locally" });
+        const saveNote = buildSaveNote(
+          result || {
+            signals: [],
+            concernLevel: "safe",
+            title: "Screenshots saved locally",
+          },
+        );
 
         if (result && typeof FILTR_AI !== "undefined") {
           output.innerHTML = FILTR_AI.formatResult(result, saveNote);
@@ -273,7 +370,11 @@ if (reviewForm) {
       } catch (err) {
         console.error("Photo analysis error:", err);
         const count = uploadedFiles.length;
-        const saveNote = buildSaveNote({ signals: [], concernLevel: "safe", title: "Screenshots saved" });
+        const saveNote = buildSaveNote({
+          signals: [],
+          concernLevel: "safe",
+          title: "Screenshots saved",
+        });
         output.innerHTML = `<strong>${count} screenshot${count > 1 ? "s" : ""} saved locally.</strong><p>AI analysis encountered an error. Your images stay in this browser and were not sent anywhere.</p>${saveNote}`;
       }
 
@@ -357,10 +458,18 @@ document.querySelectorAll("[data-accordion]").forEach((button) => {
     if (listEl) listEl.innerHTML = "";
 
     try {
-      const db = window.FiltrAuth?.db || (typeof firebase !== "undefined" && firebase.firestore ? firebase.firestore() : null);
+      const db =
+        window.FiltrAuth?.db ||
+        (typeof firebase !== "undefined" && firebase.firestore
+          ? firebase.firestore()
+          : null);
       if (!db) return;
 
-      const snapshot = await db.collection("users").doc(user.uid).collection("reviews").get();
+      const snapshot = await db
+        .collection("users")
+        .doc(user.uid)
+        .collection("reviews")
+        .get();
       if (loadingEl) loadingEl.hidden = true;
 
       if (snapshot.empty) {
@@ -375,8 +484,16 @@ document.querySelectorAll("[data-accordion]").forEach((button) => {
 
       // Sort client-side by timestamp descending
       reviews.sort((a, b) => {
-        const timeA = a.createdAt?.toMillis ? a.createdAt.toMillis() : (a.createdAt?.seconds ? a.createdAt.seconds * 1000 : 0);
-        const timeB = b.createdAt?.toMillis ? b.createdAt.toMillis() : (b.createdAt?.seconds ? b.createdAt.seconds * 1000 : 0);
+        const timeA = a.createdAt?.toMillis
+          ? a.createdAt.toMillis()
+          : a.createdAt?.seconds
+            ? a.createdAt.seconds * 1000
+            : 0;
+        const timeB = b.createdAt?.toMillis
+          ? b.createdAt.toMillis()
+          : b.createdAt?.seconds
+            ? b.createdAt.seconds * 1000
+            : 0;
         return timeB - timeA;
       });
 
@@ -389,15 +506,21 @@ document.querySelectorAll("[data-accordion]").forEach((button) => {
               day: "numeric",
               year: "numeric",
               hour: "2-digit",
-              minute: "2-digit"
+              minute: "2-digit",
             });
           }
-          const badgeClass = r.concernLevel === "alert" ? "alert" : (r.concernLevel === "watch" ? "watch" : "safe");
-          const signalsHtml = r.signals && r.signals.length
-            ? `<div style="display:flex; flex-wrap:wrap; gap:6px; margin:10px 0 6px;">
+          const badgeClass =
+            r.concernLevel === "alert"
+              ? "alert"
+              : r.concernLevel === "watch"
+                ? "watch"
+                : "safe";
+          const signalsHtml =
+            r.signals && r.signals.length
+              ? `<div style="display:flex; flex-wrap:wrap; gap:6px; margin:10px 0 6px;">
                 ${r.signals.map((s) => `<span style="font-size:9px; font-weight:800; padding:2px 8px; border-radius:3px; background:${badgeClass === "alert" ? "var(--tomato)" : "var(--amber)"}; color:#fff; text-transform:uppercase; letter-spacing:0.05em;">${s}</span>`).join("")}
               </div>`
-            : "";
+              : "";
 
           return `
             <article class="timeline-step ${badgeClass}" id="review-${r.id}">
@@ -418,9 +541,15 @@ document.querySelectorAll("[data-accordion]").forEach((button) => {
       listEl.querySelectorAll(".delete-review-btn").forEach((btn) => {
         btn.addEventListener("click", async (e) => {
           const docId = e.target.dataset.id;
-          if (!confirm("Are you sure you want to delete this saved check-in?")) return;
+          if (!confirm("Are you sure you want to delete this saved check-in?"))
+            return;
           try {
-            await db.collection("users").doc(user.uid).collection("reviews").doc(docId).delete();
+            await db
+              .collection("users")
+              .doc(user.uid)
+              .collection("reviews")
+              .doc(docId)
+              .delete();
             const stepEl = document.getElementById(`review-${docId}`);
             if (stepEl) stepEl.remove();
             if (listEl.children.length === 0 && emptyEl) emptyEl.hidden = false;
@@ -431,7 +560,9 @@ document.querySelectorAll("[data-accordion]").forEach((button) => {
       });
     } catch (err) {
       console.error("Error loading timeline reviews:", err);
-      if (loadingEl) loadingEl.textContent = "Could not load saved reviews. Please check your connection.";
+      if (loadingEl)
+        loadingEl.textContent =
+          "Could not load saved reviews. Please check your connection.";
     }
   };
 
@@ -439,6 +570,3 @@ document.querySelectorAll("[data-accordion]").forEach((button) => {
     firebase.auth().onAuthStateChanged(loadUserReviews);
   }
 })();
-
-
-

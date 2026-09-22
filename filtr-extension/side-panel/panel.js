@@ -53,7 +53,7 @@
     } else if (platform) {
       watchLabel.textContent = `Watching · ${platform}`;
     } else {
-      watchLabel.textContent = "Waiting for a chat page…";
+      watchLabel.textContent = "Waiting for WhatsApp Web…";
     }
 
     /* Message count */
@@ -62,10 +62,13 @@
     /* If no assessment yet, show default state */
     if (!assessment) {
       insightSection.className = "insight-section level-safe";
-      statusLabel.textContent = "No concerning pattern yet";
-      insightTitle.textContent = "Open a conversation to start.";
-      insightCopy.textContent =
-        "Filtr. watches for patterns like secrecy, urgency, money requests, and image pressure. It stays quiet until combinations appear.";
+      statusLabel.textContent = platform ? "Watching for pressure patterns" : "Waiting for chat page";
+      insightTitle.textContent = platform
+        ? "Open a conversation to start."
+        : "Open WhatsApp Web in Chrome to start";
+      insightCopy.textContent = platform
+        ? "Filtr. watches for patterns like secrecy, urgency, money requests, and image pressure. It stays quiet until combinations appear."
+        : "Filtr Live Watch monitors conversations on web.whatsapp.com inside Chrome. Open or refresh your WhatsApp Web tab to begin.";
       signalList.innerHTML = "";
       recommendationBlock.hidden = true;
       pulseBars.forEach((b) => (b.style.height = "25%"));
@@ -197,6 +200,8 @@
     return false;
   });
 
-  /* ── Initial Load ──────────────────────────────────────────────────────── */
+  /* ── Initial Load & Auto-Sync ─────────────────────────────────────────── */
   loadState();
+  window.addEventListener("focus", loadState);
+  setInterval(loadState, 2000);
 })();

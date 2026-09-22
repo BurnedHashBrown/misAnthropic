@@ -357,6 +357,10 @@ body {
   gap: 12px;
 }
 
+.safety-plan[hidden] {
+  display: none;
+}
+
 .safety-plan h2 {
   font-size: 20px;
   font-weight: 900;

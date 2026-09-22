@@ -1,15 +1,54 @@
 {
-  "hosting": {
-    "site": "filtr-safe",
-    "public": ".",
-    "ignore": [
-      "firebase.json",
-      ".firebaserc",
-      "**/.*",
-      "**/node_modules/**",
-      "backend/**",
-      "*.md",
-      "decisions/**"
-    ]
-  }
+  "hosting": [
+    {
+      "site": "filtr-safe",
+      "public": ".",
+      "ignore": [
+        "firebase.json",
+        ".firebaserc",
+        "**/.*",
+        "**/node_modules/**",
+        "backend/**",
+        "*.md",
+        "decisions/**",
+        "filtr-extension/**"
+      ],
+      "headers": [
+        {
+          "source": "**/*.@(js|html|css)",
+          "headers": [
+            {
+              "key": "Cache-Control",
+              "value": "no-cache, no-store, must-revalidate"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "site": "filtr-336c0",
+      "public": ".",
+      "ignore": [
+        "firebase.json",
+        ".firebaserc",
+        "**/.*",
+        "**/node_modules/**",
+        "backend/**",
+        "*.md",
+        "decisions/**",
+        "filtr-extension/**"
+      ],
+      "headers": [
+        {
+          "source": "**/*.@(js|html|css)",
+          "headers": [
+            {
+              "key": "Cache-Control",
+              "value": "no-cache, no-store, must-revalidate"
+            }
+          ]
+        }
+      ]
+    }
+  ]
 }

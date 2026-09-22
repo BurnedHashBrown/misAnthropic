@@ -1,190 +1,274 @@
 /**
- * Filtr. Content Script — MutationObserver
- * Watches for new messages in the chat DOM and sends them to the service worker.
- * Uses requestAnimationFrame to batch reads and avoid blocking the main thread.
+ * Filtr. Content Script — MutationObserver & Real-Time Scanner
+ * Continuously watches for messages on web.whatsapp.com and reports
+ * them to the Filtr service worker for on-device pattern analysis.
  */
 
 (() => {
   "use strict";
 
-  const BATCH_INTERVAL = 1500; /* ms — debounce rapid message bursts */
-  const MAX_INITIAL_SCAN = 30; /* max messages to scan on first load */
+  if (window.__FILTR_OBSERVER_ACTIVE) {
+    return;
+  }
+  window.__FILTR_OBSERVER_ACTIVE = true;
+
+  const DEBOUNCE_DELAY = 250; /* ms — debounce DOM mutation bursts */
+  const HEARTBEAT_INTERVAL = 1200; /* ms — periodic scan for virtualized scrolling / chat switches */
+  const MAX_BATCH_SIZE = 50; /* max messages to process in a single batch */
 
   let config = null;
-  let observer = null;
-  let pendingElements = [];
-  let batchTimer = null;
-  let processedTexts = new Set(); /* avoid re-sending same message text */
   let isWatching = true;
+  let debounceTimer = null;
+  let heartbeatTimer = null;
+  let currentChatTitle = null;
+
+  /* Track processed message keys to avoid duplicate processing */
+  const processedKeys = new Set();
 
   /**
-   * Find the chat container element using config selectors.
-   * @returns {Element|null}
+   * Find candidate message bubble elements across WhatsApp Web using
+   * multiple redundant selector layers without duplicating containers.
+   * @returns {Element[]}
    */
-  function findChatContainer() {
-    if (!config) return null;
-    let container = document.querySelector(config.chatContainer);
-    if (container) return container;
-    /* Try fallbacks */
-    if (config.chatContainerFallbacks) {
-      for (const sel of config.chatContainerFallbacks) {
-        container = document.querySelector(sel);
-        if (container) return container;
-      }
+  function findMessages() {
+    const seen = new Set();
+    const messageElements = [];
+
+    function addElement(el) {
+      if (!el || seen.has(el)) return;
+      /* Ignore footer compose input or emoji picker elements */
+      if (el.closest && el.closest("footer")) return;
+      seen.add(el);
+      messageElements.push(el);
     }
-    return null;
+
+    /* Strategy 1: WhatsApp's internal data-id message bubbles */
+    try {
+      const dataIdNodes = document.querySelectorAll('[data-id^="false_"], [data-id^="true_"]');
+      for (const node of dataIdNodes) {
+        addElement(node);
+      }
+    } catch { /* skip */ }
+
+    /* Strategy 2: data-testid="msg-container" */
+    try {
+      const testIdNodes = document.querySelectorAll('[data-testid="msg-container"]');
+      for (const node of testIdNodes) {
+        addElement(node);
+      }
+    } catch { /* skip */ }
+
+    /* Strategy 3: message-in / message-out CSS classes */
+    try {
+      const classNodes = document.querySelectorAll(
+        "div.message-in, div.message-out, div[class*='message-in'], div[class*='message-out']"
+      );
+      for (const node of classNodes) {
+        addElement(node);
+      }
+    } catch { /* skip */ }
+
+    /* Strategy 4: If no direct bubbles found, resolve from row containers */
+    if (messageElements.length === 0) {
+      try {
+        const main =
+          document.querySelector("#main") ||
+          document.querySelector('[data-testid="conversation-panel-wrapper"]') ||
+          document.querySelector('[role="region"]');
+        if (main) {
+          const rows = main.querySelectorAll('[role="row"], [role="article"]');
+          for (const row of rows) {
+            const innerBubble = row.querySelector(
+              '[data-id], [data-testid="msg-container"], .message-in, .message-out, [class*="message-in"], [class*="message-out"]'
+            );
+            addElement(innerBubble || row);
+          }
+        }
+      } catch { /* skip */ }
+    }
+
+    return messageElements;
   }
 
   /**
-   * Process a batch of new message elements — extract text and send to service worker.
+   * Detect if the active conversation changed (e.g. user clicked a different contact).
    */
-  function processBatch() {
-    batchTimer = null;
-    if (!isWatching || pendingElements.length === 0) {
-      pendingElements = [];
-      return;
+  function checkConversationChange() {
+    try {
+      const headerTitleEl =
+        document.querySelector("#main header span[title]") ||
+        document.querySelector("#main header h2") ||
+        document.querySelector("header span[title]") ||
+        document.querySelector("#main header span.x1rg5ohu") ||
+        document.querySelector("header .x1rg5ohu");
+
+      const title =
+        headerTitleEl?.getAttribute("title") ||
+        headerTitleEl?.textContent?.trim() ||
+        null;
+
+      if (title && title !== currentChatTitle) {
+        console.log("Filtr: Switched conversation to:", title);
+        currentChatTitle = title;
+        processedKeys.clear();
+      }
+    } catch {
+      /* ignore */
     }
+  }
+
+  /**
+   * Scan the DOM for message elements, extract unread messages,
+   * and send them to the service worker.
+   */
+  function scanMessages() {
+    if (!isWatching || !config) return;
 
     const extractor = window.__FILTR_EXTRACTOR;
     if (!extractor) return;
 
-    const elements = pendingElements.splice(0);
-    const messages = [];
+    /* Check if contact changed */
+    checkConversationChange();
 
-    requestAnimationFrame(() => {
-      for (const el of elements) {
-        const msg = extractor.extractMessage(el, config);
-        if (msg && msg.text && !processedTexts.has(msg.text)) {
-          processedTexts.add(msg.text);
-          messages.push(msg);
-        }
-      }
+    const candidateElements = findMessages();
+    if (candidateElements.length === 0) return;
 
-      if (messages.length > 0) {
-        chrome.runtime.sendMessage({
+    const newMessages = [];
+
+    for (const el of candidateElements) {
+      if (newMessages.length >= MAX_BATCH_SIZE) break;
+
+      const msg = extractor.extractMessage(el, config);
+      if (!msg || !msg.text) continue;
+
+      const idKey = msg.id ? `id:${msg.id}` : null;
+      const textKey = `txt:${msg.sender}:${msg.text}`;
+
+      if (idKey && processedKeys.has(idKey)) continue;
+      if (processedKeys.has(textKey)) continue;
+
+      if (idKey) processedKeys.add(idKey);
+      processedKeys.add(textKey);
+
+      newMessages.push(msg);
+    }
+
+    if (newMessages.length > 0) {
+      console.log(
+        "Filtr: Detected",
+        newMessages.length,
+        "new message(s):",
+        newMessages.map((m) => `[${m.sender}] ${m.text}`)
+      );
+
+      chrome.runtime
+        .sendMessage({
           type: "NEW_MESSAGES",
-          platform: config.name || config.id,
-          messages,
+          platform: config.name || "WhatsApp Web",
+          messages: newMessages,
+        })
+        .catch((err) => {
+          console.debug("Filtr: Send message status", err);
         });
-      }
-    });
-  }
-
-  /**
-   * Queue message elements for batched processing.
-   * @param {Element[]} elements
-   */
-  function queueElements(elements) {
-    pendingElements.push(...elements);
-    if (!batchTimer) {
-      batchTimer = setTimeout(processBatch, BATCH_INTERVAL);
     }
   }
 
   /**
-   * Do an initial scan of existing messages on the page.
+   * Schedule a scan with debouncing.
    */
-  function initialScan() {
-    if (!config) return;
-    const existing = document.querySelectorAll(config.messageSelector);
-    const recent = [...existing].slice(-MAX_INITIAL_SCAN);
-    if (recent.length > 0) {
-      queueElements(recent);
-    }
+  function scheduleScan() {
+    if (debounceTimer) clearTimeout(debounceTimer);
+    debounceTimer = setTimeout(() => {
+      debounceTimer = null;
+      requestAnimationFrame(scanMessages);
+    }, DEBOUNCE_DELAY);
   }
 
   /**
-   * Start the MutationObserver on the chat container.
+   * Start observing the DOM.
    */
   function startObserving() {
-    const container = findChatContainer();
-    if (!container) {
-      /* Container not yet in DOM — retry with polling */
-      setTimeout(startObserving, 2000);
+    const root = document.body || document.documentElement;
+    if (!root) {
+      setTimeout(startObserving, 500);
       return;
     }
 
-    /* Initial scan of visible messages */
-    initialScan();
-
-    /* Observe for new message nodes */
-    observer = new MutationObserver((mutations) => {
+    const observer = new MutationObserver(() => {
       if (!isWatching) return;
-      const newMessages = [];
-
-      for (const mutation of mutations) {
-        for (const node of mutation.addedNodes) {
-          if (node.nodeType !== Node.ELEMENT_NODE) continue;
-
-          /* Check if the added node itself is a message */
-          if (node.matches && node.matches(config.messageSelector)) {
-            newMessages.push(node);
-          }
-
-          /* Check children of the added node */
-          if (node.querySelectorAll) {
-            const children = node.querySelectorAll(config.messageSelector);
-            for (const child of children) {
-              newMessages.push(child);
-            }
-          }
-        }
-      }
-
-      if (newMessages.length > 0) {
-        queueElements(newMessages);
-      }
+      scheduleScan();
     });
 
-    observer.observe(container, { childList: true, subtree: true });
+    observer.observe(root, { childList: true, subtree: true });
 
-    /* Notify service worker that watching has started */
-    chrome.runtime.sendMessage({
-      type: "WATCH_STARTED",
-      platform: config.name || config.id,
-    });
+    /* Immediate initial scan */
+    scheduleScan();
+
+    /* Recurring heartbeat for virtualized scrolling */
+    if (heartbeatTimer) clearInterval(heartbeatTimer);
+    heartbeatTimer = setInterval(() => {
+      if (!isWatching) return;
+      scanMessages();
+    }, HEARTBEAT_INTERVAL);
+
+    console.log("Filtr: Observer active on", config.name);
   }
 
   /**
-   * Listen for commands from the service worker (pause/resume/reset).
+   * Listen for commands from the service worker.
    */
   chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+    if (message.type === "PING") {
+      sendResponse({ ok: true, platform: config?.name || "WhatsApp Web" });
+      return false;
+    }
+
     if (message.type === "PAUSE_WATCH") {
       isWatching = false;
       sendResponse({ ok: true });
     } else if (message.type === "RESUME_WATCH") {
       isWatching = true;
+      scheduleScan();
       sendResponse({ ok: true });
     } else if (message.type === "RESET_WATCH") {
-      processedTexts.clear();
+      processedKeys.clear();
+      currentChatTitle = null;
       isWatching = true;
-      initialScan();
+      scheduleScan();
       sendResponse({ ok: true });
     }
-    return false; /* synchronous response */
+    return false;
   });
 
   /**
-   * Initialize — detect platform and start observing.
+   * Initialize content script on page load.
    */
   function init() {
     const extractor = window.__FILTR_EXTRACTOR;
     if (!extractor) {
-      console.warn("Filtr: Extractor not loaded");
+      setTimeout(init, 300);
       return;
     }
+
     config = extractor.detectPlatform();
     if (!config) {
-      console.warn("Filtr: No matching platform config for", window.location.hostname);
       return;
     }
+
+    /* Immediately notify service worker that watching has started */
+    chrome.runtime
+      .sendMessage({
+        type: "WATCH_STARTED",
+        platform: config.name || "WhatsApp Web",
+      })
+      .catch(() => {});
+
     startObserving();
   }
 
-  /* Wait for page to settle, then initialize */
-  if (document.readyState === "complete") {
-    setTimeout(init, 1000);
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", init);
   } else {
-    window.addEventListener("load", () => setTimeout(init, 1000));
+    init();
   }
 })();

@@ -30,7 +30,7 @@ async function updateBadge(level) {
  */
 async function getState() {
   const defaults = {
-    isWatching: false,
+    isWatching: true,
     platform: null,
     signalHistory: [],
     assessment: null,
@@ -48,6 +48,70 @@ async function saveState(state) {
   await chrome.storage.local.set({ filtrState: state });
 }
 
+/**
+ * Check if any WhatsApp Web tab is open and ensure content scripts are injected.
+ * Automatically injects if the tab was opened before extension was loaded/reloaded.
+ */
+async function ensureContentScriptInjected() {
+  try {
+    const tabs = await chrome.tabs.query({ url: "*://web.whatsapp.com/*" });
+    if (!tabs || tabs.length === 0) return false;
+
+    let attached = false;
+    for (const tab of tabs) {
+      if (!tab.id) continue;
+      try {
+        const res = await chrome.tabs.sendMessage(tab.id, { type: "PING" });
+        if (res && res.ok) {
+          attached = true;
+          continue;
+        }
+      } catch {
+        /* Not responding or not yet injected — inject dynamically */
+        try {
+          if (chrome.scripting && chrome.scripting.executeScript) {
+            await chrome.scripting.executeScript({
+              target: { tabId: tab.id },
+              files: [
+                "platform-config.js",
+                "content-scripts/extractor.js",
+                "content-scripts/observer.js",
+              ],
+            });
+            attached = true;
+          }
+        } catch (injErr) {
+          console.debug("Filtr: Injection error for tab", tab.id, injErr);
+        }
+      }
+    }
+
+    if (attached) {
+      const state = await getState();
+      if (!state.platform) {
+        state.platform = "WhatsApp Web";
+        state.isWatching = true;
+        await saveState(state);
+        await updateBadge(state.assessment?.concernLevel || "watching");
+        try {
+          await chrome.runtime.sendMessage({
+            type: "STATE_UPDATED",
+            assessment: state.assessment,
+            messageCount: state.messageCount,
+            signalHistory: state.signalHistory,
+          });
+        } catch {
+          /* Side panel not open */
+        }
+      }
+      return true;
+    }
+  } catch (err) {
+    console.debug("Filtr: Error checking open tabs", err);
+  }
+  return false;
+}
+
 /* ── Message Handlers ──────────────────────────────────────────────────────── */
 
 /**
@@ -55,7 +119,12 @@ async function saveState(state) {
  */
 async function handleNewMessages(data) {
   const state = await getState();
-  if (!state.isWatching) return;
+  if (data.platform) {
+    state.platform = data.platform;
+  } else if (!state.platform) {
+    state.platform = "WhatsApp Web";
+  }
+  state.isWatching = true;
 
   const { assessment, signalHistory } = analyzeMessages(
     data.messages,
@@ -84,7 +153,6 @@ async function handleNewMessages(data) {
 
   /* Show notification on alert level */
   if (assessment.concernLevel === "alert") {
-    /* Use badge flash for notification since chrome.notifications needs icon files */
     await chrome.action.setBadgeText({ text: "⚠" });
   }
 }
@@ -95,10 +163,10 @@ async function handleNewMessages(data) {
 async function handleWatchStarted(data) {
   const state = await getState();
   state.isWatching = true;
-  state.platform = data.platform;
+  state.platform = data.platform || "WhatsApp Web";
   state.lastUpdated = Date.now();
   await saveState(state);
-  await updateBadge("watching");
+  await updateBadge(state.assessment?.concernLevel || "watching");
 
   /* Notify the side panel (if open) */
   try {
@@ -133,6 +201,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
         break;
 
       case "GET_STATE": {
+        await ensureContentScriptInjected();
         const state = await getState();
         sendResponse(state);
         break;
@@ -161,14 +230,14 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
 
       case "RESET_ALL": {
         await saveState({
-          isWatching: false,
+          isWatching: true,
           platform: null,
           signalHistory: [],
           assessment: null,
           messageCount: 0,
           lastUpdated: null,
         });
-        await updateBadge("idle");
+        await updateBadge("watching");
 
         /* Tell content scripts to reset */
         const allTabs = await chrome.tabs.query({});
@@ -190,18 +259,31 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   return true; /* Keep channel open for async response */
 });
 
+/* ── Tab Lifecycle Listeners ───────────────────────────────────────────────── */
+
+chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
+  if (changeInfo.status === "complete" && tab.url && tab.url.includes("web.whatsapp.com")) {
+    ensureContentScriptInjected();
+  }
+});
+
+chrome.tabs.onActivated.addListener(async (activeInfo) => {
+  try {
+    const tab = await chrome.tabs.get(activeInfo.tabId);
+    if (tab && tab.url && tab.url.includes("web.whatsapp.com")) {
+      ensureContentScriptInjected();
+    }
+  } catch {
+    /* tab closed or inaccessible */
+  }
+});
+
 /* ── Install / Update ──────────────────────────────────────────────────────── */
 
-chrome.runtime.onInstalled.addListener(async (details) => {
-  if (details.reason === "install") {
-    await saveState({
-      isWatching: false,
-      platform: null,
-      signalHistory: [],
-      assessment: null,
-      messageCount: 0,
-      lastUpdated: null,
-    });
-    await updateBadge("idle");
-  }
+chrome.runtime.onInstalled.addListener(async () => {
+  const state = await getState();
+  state.isWatching = true;
+  await saveState(state);
+  await updateBadge(state.assessment?.concernLevel || "watching");
+  await ensureContentScriptInjected();
 });

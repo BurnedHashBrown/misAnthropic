@@ -5,7 +5,9 @@
   "description": "A private early-warning companion for online conversations. Watches for pressure, secrecy, and financial requests — all on your device.",
   "permissions": [
     "storage",
-    "sidePanel"
+    "sidePanel",
+    "tabs",
+    "scripting"
   ],
   "host_permissions": [
     "https://web.whatsapp.com/*"
