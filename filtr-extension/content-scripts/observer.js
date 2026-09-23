@@ -154,6 +154,12 @@
     }
 
     if (newMessages.length > 0) {
+      /* Guard against invalidated extension context (e.g. extension reloaded) */
+      if (!chrome.runtime?.id) {
+        if (heartbeatTimer) clearInterval(heartbeatTimer);
+        return;
+      }
+
       console.log(
         "Filtr: Detected",
         newMessages.length,
@@ -161,15 +167,20 @@
         newMessages.map((m) => `[${m.sender}] ${m.text}`)
       );
 
-      chrome.runtime
-        .sendMessage({
-          type: "NEW_MESSAGES",
-          platform: config.name || "WhatsApp Web",
-          messages: newMessages,
-        })
-        .catch((err) => {
-          console.debug("Filtr: Send message status", err);
-        });
+      try {
+        chrome.runtime
+          .sendMessage({
+            type: "NEW_MESSAGES",
+            platform: config.name || "WhatsApp Web",
+            messages: newMessages,
+          })
+          .catch((err) => {
+            console.debug("Filtr: Send message status", err);
+          });
+      } catch (err) {
+        /* Extension was reloaded or disabled in another tab */
+        if (heartbeatTimer) clearInterval(heartbeatTimer);
+      }
     }
   }
 
@@ -256,12 +267,16 @@
     }
 
     /* Immediately notify service worker that watching has started */
-    chrome.runtime
-      .sendMessage({
-        type: "WATCH_STARTED",
-        platform: config.name || "WhatsApp Web",
-      })
-      .catch(() => {});
+    if (chrome.runtime?.id) {
+      try {
+        chrome.runtime
+          .sendMessage({
+            type: "WATCH_STARTED",
+            platform: config.name || "WhatsApp Web",
+          })
+          .catch(() => {});
+      } catch (e) {}
+    }
 
     startObserving();
   }

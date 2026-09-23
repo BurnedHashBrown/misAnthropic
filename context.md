@@ -9,6 +9,7 @@ This repository is currently a dependency-free static web app. It can be hosted 
 ## Pages
 
 - `index.html`: Home and Live Watch dashboard
+- `live-watch.html`: Live Watch browser extension explanation and downloads (Microsoft Edge Store & GitHub .ZIP)
 - `review.html`: manual Paste Review tool
 - `timeline.html`: explains risk escalation
 - `help.html`: sextortion and grooming next steps

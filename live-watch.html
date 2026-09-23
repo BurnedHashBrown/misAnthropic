@@ -1,0 +1,397 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta
+      name="description"
+      content="Filtr. Live Watch is a private browser extension that watches for romance scam and sextortion pressure in real time, entirely on your device."
+    />
+    <title>Live Watch | Filtr.</title>
+    <link rel="stylesheet" href="paperfolio.css" />
+  </head>
+  <body>
+    <header class="app-topbar">
+      <a class="brand" href="index.html" aria-label="Filtr. home"
+        ><img src="filtr-logo.png" alt="filtr." class="brand-logo" /></a
+      >
+      <nav>
+        <a href="index.html">Home</a><a class="active" href="live-watch.html">Live watch</a><a href="review.html">Paste review</a><a href="timeline.html">Timeline</a><a href="guides.html">Guides</a><a href="help.html">Help</a>
+      </nav>
+      <a class="app-link" href="login.html">Log in</a>
+    </header>
+
+    <main class="app-page">
+      <!-- Hero Section -->
+      <section class="livewatch-hero">
+        <div>
+          <p class="page-kicker">Live watch companion</p>
+          <h1>Check the pattern as it happens.</h1>
+          <p class="page-lead">
+            A private browser companion that lives discreetly alongside your
+            chats on WhatsApp Web. It notices escalation patterns in real time —
+            keeping your conversation private, local, and calm.
+          </p>
+          <div style="display: flex; gap: 14px; flex-wrap: wrap;">
+            <a class="arrow-fill-button" href="#download-options">
+              <span>Choose download method</span><b>↓</b>
+            </a>
+            <a class="secondary-cta-btn" href="#how-it-works">
+              How it works
+            </a>
+          </div>
+        </div>
+
+        <!-- Visual Side-Panel Mockup -->
+        <div class="livewatch-hero-art" aria-label="Filtr Live Watch interface preview">
+          <div class="mock-browser-frame">
+            <div class="mock-browser-topbar">
+              <div class="mock-dots">
+                <span></span><span></span><span></span>
+              </div>
+              <div class="mock-url-bar">https://web.whatsapp.com</div>
+            </div>
+            <div class="mock-split-view">
+              <div class="mock-chat-area">
+                <div class="mock-chat-header">Alex · Active Chat</div>
+                <div class="mock-bubble them">
+                  I feel like you're the only person who gets me.
+                </div>
+                <div class="mock-bubble them urgent">
+                  Can you send $150 right now? Don't tell your friends, it's an emergency.
+                </div>
+              </div>
+              <div class="mock-sidepanel">
+                <div class="mock-panel-title">
+                  <img src="filtr-logo-f.png" alt="f." height="18" style="vertical-align: middle; display: block;" />
+                  <span class="badge">Live</span>
+                </div>
+                <div class="mock-panel-status">
+                  <span class="mock-orb"></span>
+                  <span>Pattern detected</span>
+                </div>
+                <div class="mock-panel-box">
+                  <strong>Gentle nudge:</strong>
+                  Urgency + secrecy + financial demand appeared together. Pause before replying.
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- How It Works Section -->
+      <section id="how-it-works" style="margin-bottom: 64px;">
+        <p class="page-kicker">Architecture & Safety</p>
+        <h2 style="font-size: clamp(34px, 5vw, 56px); letter-spacing: -0.05em; margin: 0 0 16px; line-height: 0.95;">
+          How Live Watch protects you without invading your space.
+        </h2>
+        <p style="max-width: 680px; font-size: 16px; color: var(--muted); line-height: 1.55; margin: 0 0 32px;">
+          Built from the ground up for restraint and strict privacy. Filtr. never monitors your personal life to judge you — it exists only to give you breathing room when manipulation starts to compound.
+        </p>
+
+        <div class="pillars-grid">
+          <article class="pillar-card">
+            <span class="pillar-num">Pillar 01</span>
+            <h3>Side-Panel Presence</h3>
+            <p>
+              Live Watch docks natively in your browser's side panel alongside WhatsApp Web. You don't need to copy and paste suspicious messages into another window — it gently observes incoming chat text in real time.
+            </p>
+          </article>
+
+          <article class="pillar-card">
+            <span class="pillar-num">Pillar 02</span>
+            <h3>100% On-Device & Zero Uploads</h3>
+            <p>
+              Your conversations never leave your computer. The entire pattern engine executes inside your browser's local sandbox memory. Zero server uploads, zero chat log storage, and zero tracking.
+            </p>
+          </article>
+
+          <article class="pillar-card">
+            <span class="pillar-num">Pillar 03</span>
+            <h3>Restraint & Cumulative Patterns</h3>
+            <p>
+              Affection, distance, compliments, and daily frequency are never flagged. Filtr. only responds when high-risk signals compound over time: secrecy requests + urgency + financial demands + private-image pressure.
+            </p>
+          </article>
+
+          <article class="pillar-card">
+            <span class="pillar-num">Pillar 04</span>
+            <h3>Calm, Non-Judgmental Guidance</h3>
+            <p>
+              No alarming red sirens or accusatory labels. Live Watch offers balanced observations, ready-to-copy pause messages to stall pressure gracefully, and direct links to trusted support resources.
+            </p>
+          </article>
+        </div>
+      </section>
+
+      <!-- Escalation Scale Section -->
+      <section style="margin-bottom: 72px;">
+        <p class="page-kicker">Evaluation Matrix</p>
+        <h2 style="font-size: clamp(28px, 4vw, 42px); letter-spacing: -0.04em; margin: 0 0 16px;">
+          Three calibrated states, never premature alarm.
+        </h2>
+        <p style="max-width: 640px; font-size: 15px; color: var(--muted); line-height: 1.5; margin: 0 0 28px;">
+          Romance scams and extortion prey on sudden isolation. Here is how Live Watch categorizes patterns as they develop:
+        </p>
+
+        <div class="scale-grid">
+          <div class="scale-card safe">
+            <span class="scale-pill">Safe · Level 0</span>
+            <h3>New Connection</h3>
+            <p>
+              Warmth, compliments, shared interests, and long-distance affection. Filtr. remains peaceful in the background.
+            </p>
+            <div class="scale-footer">
+              Nudge: Enjoy the conversation at your own pace.
+            </div>
+          </div>
+
+          <div class="scale-card watch">
+            <span class="scale-pill">Watch · Level 1</span>
+            <h3>Single Shift</h3>
+            <p>
+              An isolated secrecy request ("don't tell anyone about us") or a sudden vague hardship. Deserves gentle observation.
+            </p>
+            <div class="scale-footer">
+              Nudge: Notice the shift; keep your personal boundaries.
+            </div>
+          </div>
+
+          <div class="scale-card alert">
+            <span class="scale-pill">Alert · Level 2+</span>
+            <h3>Compound Pressure</h3>
+            <p>
+              Multiple signals combine: secrecy + urgency + demands for money, crypto, gift cards, or private photos, or blackmail.
+            </p>
+            <div class="scale-footer">
+              Nudge: Pause contact immediately. Talk to someone you trust.
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Download Options Section -->
+      <section class="download-section" id="download-options">
+        <p class="page-kicker">Get Live Watch</p>
+        <h2 style="font-size: clamp(34px, 5vw, 56px); letter-spacing: -0.05em; margin: 0 0 16px; line-height: 0.95;">
+          Two ways to download and install.
+        </h2>
+        <p style="max-width: 680px; font-size: 16px; color: var(--muted); line-height: 1.55; margin: 0 0 36px;">
+          Choose the installation method that fits your workflow. For most users, the Microsoft Add-ons Store provides one-click setup. For privacy auditors and developers, the open-source ZIP package allows manual inspection and sideloading.
+        </p>
+
+        <div class="download-grid">
+          <!-- Option 1: Microsoft Add-ons Store -->
+          <article class="download-card highlight" id="download-store">
+            <span class="download-badge">Recommended</span>
+            <div class="download-icon-wrap" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                <polyline points="22,6 12,13 2,6"/>
+              </svg>
+            </div>
+            <h3>1. Microsoft Add-ons Store</h3>
+            <p class="subtitle">
+              Fastest setup with automatic background updates, sandboxed and verified by Microsoft.
+            </p>
+
+            <ul class="perks-list">
+              <li>1-click installation directly inside Microsoft Edge</li>
+              <li>Automated security updates as new protection rules release</li>
+              <li>Verified package integrity and store sandboxing</li>
+              <li>Zero developer settings or command line required</li>
+            </ul>
+
+            <div class="download-actions">
+              <a
+                class="store-cta-btn"
+                href="https://microsoftedge.microsoft.com/addons"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <span>Get on Microsoft Edge Add-ons</span>
+                <b aria-hidden="true">↗</b>
+              </a>
+              <small style="color: var(--muted); font-size: 11px; text-align: center;">
+                Compatible with Microsoft Edge on Windows, macOS, and Linux
+              </small>
+            </div>
+          </article>
+
+          <!-- Option 2: GitHub via .ZIP -->
+          <article class="download-card" id="download-zip">
+            <div class="download-icon-wrap" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                <polyline points="7 10 12 15 17 10"/>
+                <line x1="12" y1="15" x2="12" y2="3"/>
+              </svg>
+            </div>
+            <h3>2. GitHub via .ZIP</h3>
+            <p class="subtitle">
+              Direct offline download. Inspect every line of code before sideloading into any Chromium browser.
+            </p>
+
+            <ul class="perks-list">
+              <li>100% open source under MIT License on GitHub</li>
+              <li>Works across Edge, Google Chrome, Brave, and Chromium</li>
+              <li>Full code transparency — inspect pattern engine locally</li>
+              <li>Pre-packaged archive ready for Developer Mode sideload</li>
+            </ul>
+
+            <div class="download-actions">
+              <a
+                class="store-cta-btn"
+                href="filtr-extension.zip"
+                download="filtr-extension.zip"
+                id="zipDownloadButton"
+              >
+                <span>Download .ZIP (47 KB)</span>
+                <b aria-hidden="true">↓</b>
+              </a>
+              <a
+                class="secondary-cta-btn"
+                href="https://github.com/BurnedHashBrown/misAnthropic"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <span>View Source on GitHub</span>
+                <b aria-hidden="true">↗</b>
+              </a>
+            </div>
+          </article>
+        </div>
+
+        <!-- Sideloading Instructions -->
+        <div class="step-container">
+          <h4>How to Install the .ZIP Package (Manual Sideload)</h4>
+          <p style="font-size: 13px; color: var(--muted); margin: 0 0 24px; line-height: 1.5;">
+            Follow these 5 steps to install Filtr. Live Watch manually in Microsoft Edge, Google Chrome, or Brave:
+          </p>
+
+          <div class="step-list">
+            <div class="step-item">
+              <div class="step-number">1</div>
+              <div class="step-body">
+                <strong>Download & Extract Archive</strong>
+                Download the <a href="filtr-extension.zip" download style="text-decoration: underline; font-weight: 700;">filtr-extension.zip</a> file above and extract its contents to a folder on your computer (e.g. <code>Downloads/filtr-extension</code>).
+              </div>
+            </div>
+
+            <div class="step-item">
+              <div class="step-number">2</div>
+              <div class="step-body">
+                <strong>Open Browser Extensions Manager</strong>
+                In your browser URL bar, navigate to the extensions settings page:
+                <br />
+                <span class="code-chip">
+                  <span id="edgeUrl">edge://extensions</span>
+                  <button class="copy-mini-btn" type="button" onclick="copySnippet('edgeUrl', this)">Copy</button>
+                </span>
+                <span style="font-size: 11px; color: var(--muted); margin: 0 6px;">or for Chrome/Brave:</span>
+                <span class="code-chip">
+                  <span id="chromeUrl">chrome://extensions</span>
+                  <button class="copy-mini-btn" type="button" onclick="copySnippet('chromeUrl', this)">Copy</button>
+                </span>
+              </div>
+            </div>
+
+            <div class="step-item">
+              <div class="step-number">3</div>
+              <div class="step-body">
+                <strong>Enable Developer Mode</strong>
+                Turn on the <strong>Developer mode</strong> toggle switch (located in the left sidebar in Edge, or top-right corner in Chrome).
+              </div>
+            </div>
+
+            <div class="step-item">
+              <div class="step-number">4</div>
+              <div class="step-body">
+                <strong>Load Unpacked Extension</strong>
+                Click the <strong>Load unpacked</strong> button that appears, and select the unzipped <code>filtr-extension</code> folder.
+              </div>
+            </div>
+
+            <div class="step-item">
+              <div class="step-number">5</div>
+              <div class="step-body">
+                <strong>Pin & Start Checking</strong>
+                Click the puzzle icon in your browser toolbar to pin <strong>Filtr. Live Watch</strong>. Navigate to <a href="https://web.whatsapp.com" target="_blank" rel="noopener noreferrer" style="text-decoration: underline; font-weight: 700;">web.whatsapp.com</a> and click the Filtr icon to open the live companion in your side panel.
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Transparency & Permissions FAQ -->
+      <section style="margin-bottom: 72px;">
+        <p class="page-kicker">Permissions & Transparency</p>
+        <h2 style="font-size: clamp(28px, 4vw, 42px); letter-spacing: -0.04em; margin: 0 0 20px;">
+          Clear answers about your privacy.
+        </h2>
+
+        <div style="border-top: 1px solid var(--ink); max-width: 840px;">
+          <div style="padding: 20px 0; border-bottom: 1px solid var(--soft-rule);">
+            <strong style="display: block; font-size: 15px; margin-bottom: 6px;">Does Live Watch break WhatsApp's encryption?</strong>
+            <p style="margin: 0; font-size: 13px; line-height: 1.5; color: var(--muted);">
+              No. Live Watch does not touch network packets or cryptographic keys. It operates solely in your browser window as a reader to detect specific manipulation strings locally after the messages have already been decrypted and rendered for you.
+            </p>
+          </div>
+
+          <div style="padding: 20px 0; border-bottom: 1px solid var(--soft-rule);">
+            <strong style="display: block; font-size: 15px; margin-bottom: 6px;">Are my chats sent to any AI cloud servers?</strong>
+            <p style="margin: 0; font-size: 13px; line-height: 1.5; color: var(--muted);">
+              Never. Unlike cloud-based chatbots, Live Watch's pattern recognition engine runs entirely on your own processor inside <code>pattern-engine.js</code>. No logs or text snippets are ever transmitted outside your computer.
+            </p>
+          </div>
+
+          <div style="padding: 20px 0; border-bottom: 1px solid var(--soft-rule);">
+            <strong style="display: block; font-size: 15px; margin-bottom: 6px;">Can I pause or disable it at any time?</strong>
+            <p style="margin: 0; font-size: 13px; line-height: 1.5; color: var(--muted);">
+              Yes. The side panel contains an instant "Pause" button that halts all DOM observation with a single click. You remain in complete control of when it runs.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Bottom CTA -->
+      <section style="background: rgba(255, 188, 13, 0.15); border: 1px solid var(--ink); padding: 36px; display: flex; justify-content: space-between; align-items: center; gap: 24px; flex-wrap: wrap;">
+        <div>
+          <p class="page-kicker" style="color: var(--tomato); margin-bottom: 8px;">Need to check an existing message?</p>
+          <h3 style="font-size: 24px; margin: 0 0 6px; letter-spacing: -0.04em;">You can also paste messages for a one-time check.</h3>
+          <p style="margin: 0; font-size: 13px; color: var(--muted);">Use the private web review tool if you don't wish to install an extension.</p>
+        </div>
+        <a class="arrow-fill-button" href="review.html">
+          <span>Open Paste Review</span><b>↗</b>
+        </a>
+      </section>
+    </main>
+
+    <footer class="app-footer">
+      <a href="privacy.html">Privacy</a>
+      <a href="about.html">About</a>
+      <a href="terms.html">Terms and disclaimer</a>
+      <a href="signup.html">Create account</a>
+    </footer>
+
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+    <script src="firebase-init.js"></script>
+    <script src="pages.js"></script>
+    <script>
+      function copySnippet(elementId, btn) {
+        const el = document.getElementById(elementId);
+        if (!el) return;
+        navigator.clipboard.writeText(el.innerText).then(() => {
+          const originalText = btn.innerText;
+          btn.innerText = "Copied!";
+          setTimeout(() => {
+            btn.innerText = originalText;
+          }, 2000);
+        });
+      }
+    </script>
+  </body>
+</html>
