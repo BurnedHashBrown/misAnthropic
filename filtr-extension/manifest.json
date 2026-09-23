@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "Filtr. Live Watch",
   "version": "1.0.0",
-  "description": "A private early-warning companion for online conversations. Watches for pressure, secrecy, and financial requests — all on your device.",
+  "description": "A private companion watching for conversational pressure, secrecy, and financial requests on your device.",
   "permissions": [
     "storage",
     "sidePanel",
