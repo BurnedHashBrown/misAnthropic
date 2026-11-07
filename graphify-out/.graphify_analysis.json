@@ -1,0 +1,256 @@
+{
+  "communities": {
+    "0": [
+      "anthropic",
+      "backend_main",
+      "backend_main_analyze_text",
+      "backend_main_claude_analyze_text",
+      "backend_main_gemini_analyze_text",
+      "backend_main_rationale_1",
+      "backend_main_rationale_185",
+      "backend_main_rationale_235",
+      "backend_main_rationale_267",
+      "backend_main_rationale_338",
+      "backend_main_rationale_443",
+      "backend_main_regex_fallback",
+      "backend_main_spacy_preprocess",
+      "backend_main_textanalysisrequest",
+      "base64",
+      "basemodel",
+      "dotenv",
+      "fastapi",
+      "fastapi_middleware_cors",
+      "google",
+      "google_genai",
+      "json",
+      "logging",
+      "os",
+      "pydantic",
+      "re",
+      "spacy",
+      "typing"
+    ],
+    "1": [
+      "filtr_extension_manifest",
+      "filtr_extension_manifest_background",
+      "filtr_extension_manifest_background_service_worker",
+      "filtr_extension_manifest_background_type",
+      "filtr_extension_manifest_content_scripts",
+      "filtr_extension_manifest_description",
+      "filtr_extension_manifest_host_permissions",
+      "filtr_extension_manifest_icons",
+      "filtr_extension_manifest_icons_128",
+      "filtr_extension_manifest_icons_16",
+      "filtr_extension_manifest_icons_32",
+      "filtr_extension_manifest_icons_48",
+      "filtr_extension_manifest_incognito",
+      "filtr_extension_manifest_manifest_version",
+      "filtr_extension_manifest_name",
+      "filtr_extension_manifest_permissions",
+      "filtr_extension_manifest_side_panel",
+      "filtr_extension_manifest_side_panel_default_path",
+      "filtr_extension_manifest_version",
+      "filtr_extension_manifest_web_accessible_resources"
+    ],
+    "2": [
+      "filtr_extension_pattern_engine",
+      "filtr_extension_pattern_engine_analyzemessages",
+      "filtr_extension_pattern_engine_assessrisk",
+      "filtr_extension_pattern_engine_benign_solo",
+      "filtr_extension_pattern_engine_detectsignals",
+      "filtr_extension_pattern_engine_signal_checks",
+      "filtr_extension_service_worker",
+      "filtr_extension_service_worker_badge_states",
+      "filtr_extension_service_worker_ensurecontentscriptinjected",
+      "filtr_extension_service_worker_getstate",
+      "filtr_extension_service_worker_handlenewmessages",
+      "filtr_extension_service_worker_handlewatchstarted",
+      "filtr_extension_service_worker_savestate",
+      "filtr_extension_service_worker_updatebadge"
+    ],
+    "3": [
+      "backend_main_analyze_image",
+      "backend_main_analyze_multiple_images",
+      "backend_main_claude_analyze_image",
+      "backend_main_gemini_analyze_image",
+      "backend_main_rationale_302",
+      "backend_main_rationale_379",
+      "backend_main_rationale_471",
+      "backend_main_rationale_511",
+      "post",
+      "uploadfile"
+    ],
+    "4": [
+      "pages",
+      "pages_activatetab",
+      "pages_buildsavenote",
+      "pages_notify",
+      "pages_previewfiles",
+      "pages_regexfallback",
+      "pages_resetbutton",
+      "pages_reviewform",
+      "pages_showloading"
+    ],
+    "5": [
+      "filtr_extension_content_scripts_observer",
+      "filtr_extension_content_scripts_observer_checkconversationchange",
+      "filtr_extension_content_scripts_observer_findmessages",
+      "filtr_extension_content_scripts_observer_findmessages_addelement",
+      "filtr_extension_content_scripts_observer_init",
+      "filtr_extension_content_scripts_observer_scanmessages",
+      "filtr_extension_content_scripts_observer_schedulescan",
+      "filtr_extension_content_scripts_observer_startobserving"
+    ],
+    "6": [
+      "filtr_extension_manifest_action",
+      "filtr_extension_manifest_action_default_icon",
+      "filtr_extension_manifest_action_default_title",
+      "filtr_extension_manifest_default_icon_128",
+      "filtr_extension_manifest_default_icon_16",
+      "filtr_extension_manifest_default_icon_32",
+      "filtr_extension_manifest_default_icon_48"
+    ],
+    "7": [
+      "filtr_extension_content_scripts_extractor",
+      "filtr_extension_content_scripts_extractor_cleanmessagetext",
+      "filtr_extension_content_scripts_extractor_detectplatform",
+      "filtr_extension_content_scripts_extractor_extractmessage",
+      "filtr_extension_content_scripts_extractor_extracttext",
+      "filtr_extension_content_scripts_extractor_stripinvisiblemarks"
+    ],
+    "8": [
+      "app",
+      "app_notice",
+      "app_open",
+      "app_render",
+      "app_stages"
+    ],
+    "9": [
+      "firebase_init",
+      "firebase_init_firebaseconfig",
+      "firebase_init_formatautherror",
+      "firebase_init_shownotice"
+    ],
+    "10": [
+      "backend_main_health_check",
+      "backend_main_rationale_559",
+      "get"
+    ],
+    "11": [
+      "filtr_extension_side_panel_panel",
+      "filtr_extension_side_panel_panel_loadstate",
+      "filtr_extension_side_panel_panel_render"
+    ],
+    "12": [
+      "ai_review",
+      "ai_review_filtr_ai"
+    ],
+    "13": [
+      "filtr_extension_platform_config",
+      "filtr_extension_platform_config_platform_configs"
+    ]
+  },
+  "cohesion": {
+    "0": 0.08465608465608465,
+    "1": 0.1,
+    "2": 0.2857142857142857,
+    "3": 0.26666666666666666,
+    "4": 0.2222222222222222,
+    "5": 0.4642857142857143,
+    "6": 0.2857142857142857,
+    "7": 0.5333333333333333,
+    "8": 0.5,
+    "9": 0.5,
+    "10": 0.6666666666666666,
+    "11": 1.0,
+    "12": 1.0,
+    "13": 1.0
+  },
+  "gods": [
+    {
+      "id": "backend_main_analyze_text",
+      "label": "analyze_text()",
+      "degree": 8
+    },
+    {
+      "id": "backend_main_analyze_image",
+      "label": "analyze_image()",
+      "degree": 6
+    },
+    {
+      "id": "backend_main_analyze_multiple_images",
+      "label": "analyze_multiple_images()",
+      "degree": 6
+    },
+    {
+      "id": "filtr_extension_pattern_engine_analyzemessages",
+      "label": "analyzeMessages()",
+      "degree": 5
+    },
+    {
+      "id": "filtr_extension_service_worker_handlenewmessages",
+      "label": "handleNewMessages()",
+      "degree": 5
+    },
+    {
+      "id": "filtr_extension_content_scripts_observer_scanmessages",
+      "label": "scanMessages()",
+      "degree": 5
+    },
+    {
+      "id": "filtr_extension_manifest_icons",
+      "label": "icons",
+      "degree": 5
+    },
+    {
+      "id": "filtr_extension_manifest_action_default_icon",
+      "label": "default_icon",
+      "degree": 5
+    },
+    {
+      "id": "filtr_extension_service_worker_ensurecontentscriptinjected",
+      "label": "ensureContentScriptInjected()",
+      "degree": 4
+    },
+    {
+      "id": "filtr_extension_service_worker_getstate",
+      "label": "getState()",
+      "degree": 4
+    }
+  ],
+  "surprises": [
+    {
+      "source": "handleNewMessages()",
+      "target": "analyzeMessages()",
+      "source_files": [
+        "filtr-extension/service-worker.js",
+        "filtr-extension/pattern-engine.js"
+      ],
+      "confidence": "EXTRACTED",
+      "relation": "calls",
+      "why": "cross-file semantic connection"
+    }
+  ],
+  "questions": [
+    {
+      "type": "bridge_node",
+      "question": "Why does `action` connect `Community 6` to `Community 1`?",
+      "why": "High betweenness centrality (0.018) - this node is a cross-community bridge."
+    },
+    {
+      "type": "isolated_nodes",
+      "question": "What connects `service_worker`, `type`, `content_scripts` to the rest of the system?",
+      "why": "29 weakly-connected nodes found - possible documentation gaps or missing edges."
+    },
+    {
+      "type": "low_cohesion",
+      "question": "Should `Community 0` be split into smaller, more focused modules?",
+      "why": "Cohesion score 0.08465608465608465 - nodes in this community are weakly interconnected."
+    },
+    {
+      "type": "low_cohesion",
+      "question": "Should `Community 1` be split into smaller, more focused modules?",
+      "why": "Cohesion score 0.1 - nodes in this community are weakly interconnected."
+    }
+  ]
+}

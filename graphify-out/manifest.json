@@ -1,0 +1,80 @@
+{
+  "ai-review.js": {
+    "mtime": 1790086809.9642687,
+    "seen": 1794060649.301429,
+    "ast_hash": "0d915158f506da34599f9af20cce2f75",
+    "semantic_hash": "0d915158f506da34599f9af20cce2f75"
+  },
+  "app.js": {
+    "mtime": 1790088623.8398557,
+    "seen": 1794060649.3014336,
+    "ast_hash": "40c79b463a77d5760d233204707642ed",
+    "semantic_hash": "40c79b463a77d5760d233204707642ed"
+  },
+  "backend/main.py": {
+    "mtime": 1790086809.997921,
+    "seen": 1794060649.3014357,
+    "ast_hash": "5ce41588282ccc69a43bc9e920252190",
+    "semantic_hash": "5ce41588282ccc69a43bc9e920252190"
+  },
+  "filtr-extension/content-scripts/extractor.js": {
+    "mtime": 1794060075.0242958,
+    "seen": 1794060649.301437,
+    "ast_hash": "6c955bd2d4f6f9330f204cacf910d540",
+    "semantic_hash": "6c955bd2d4f6f9330f204cacf910d540"
+  },
+  "filtr-extension/content-scripts/observer.js": {
+    "mtime": 1794060075.0381217,
+    "seen": 1794060649.301438,
+    "ast_hash": "eadb555d7448d6746d0e563b83168de8",
+    "semantic_hash": "eadb555d7448d6746d0e563b83168de8"
+  },
+  "filtr-extension/manifest.json": {
+    "mtime": 1794060075.457363,
+    "seen": 1794060649.3014393,
+    "ast_hash": "ddc9cb8e93dd6e87744bb8bb3a19951e",
+    "semantic_hash": "ddc9cb8e93dd6e87744bb8bb3a19951e"
+  },
+  "filtr-extension/pattern-engine.js": {
+    "mtime": 1794060075.4882507,
+    "seen": 1794060649.3014402,
+    "ast_hash": "b777aa263efe80a93195fde6dd5c9423",
+    "semantic_hash": "b777aa263efe80a93195fde6dd5c9423"
+  },
+  "filtr-extension/platform-config.js": {
+    "mtime": 1794060075.5472562,
+    "seen": 1794060649.3014412,
+    "ast_hash": "051c3cee01c5957962a644324fda8747",
+    "semantic_hash": "051c3cee01c5957962a644324fda8747"
+  },
+  "filtr-extension/service-worker.js": {
+    "mtime": 1794060075.5924716,
+    "seen": 1794060649.3014424,
+    "ast_hash": "f3adf89db23fbf99e3431a82f0355569",
+    "semantic_hash": "f3adf89db23fbf99e3431a82f0355569"
+  },
+  "filtr-extension/side-panel/panel.js": {
+    "mtime": 1794060075.734005,
+    "seen": 1794060649.301443,
+    "ast_hash": "551989640b4fe36ad8332ff7339302a9",
+    "semantic_hash": "551989640b4fe36ad8332ff7339302a9"
+  },
+  "firebase-init.js": {
+    "mtime": 1790087531.4396925,
+    "seen": 1794060649.301444,
+    "ast_hash": "0a5477aa88d365c36c96d9bc6d23ce21",
+    "semantic_hash": "0a5477aa88d365c36c96d9bc6d23ce21"
+  },
+  "firebase.json": {
+    "mtime": 1794060075.8943202,
+    "seen": 1794060649.3014455,
+    "ast_hash": "a60604bcad7838501e60381b0ad94db9",
+    "semantic_hash": "a60604bcad7838501e60381b0ad94db9"
+  },
+  "pages.js": {
+    "mtime": 1794060076.2421885,
+    "seen": 1794060649.3014462,
+    "ast_hash": "5c68a053d6c62ff81ff8bc797bdeb51f",
+    "semantic_hash": "5c68a053d6c62ff81ff8bc797bdeb51f"
+  }
+}
